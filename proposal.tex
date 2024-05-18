@@ -1,0 +1,50 @@
+\documentclass[a4paper, 8pt]{article}
+\usepackage[
+left=1in,
+right=1in,
+top=0in,
+bottom=0in
+]{geometry}
+\usepackage[backend=biber]{biblatex}
+\addbibresource{ref.bib}
+
+\title{CS247 Project Proposal\\
+Reasoning about (Discrete) Probabilistic Program using Generating Functions}
+\date{\today}
+\author{Cheng Peng (2020533068)}
+
+
+\begin{document}
+
+\maketitle
+
+\section{Backgrounds}
+
+Randomness arises naturally when modeling the physics processes and are of special interest in various fields such as approximate algorithms and fair scheduling. Probabilistic programming has been a hot-spot of research in recent years. Many researchers are working on providing correctness grantee for probabilistic programs.\\
+The research team lead by Prof. Katoen Joost-Pieter at RWTH Aachen proposed a unified framework for automated verification and inference of probabilistic programs. They devised denotational semantics of probabilistic programs on probability generating functions, and developed automated tools for computing PGF transformers of probabilistic programs.
+
+\section{Related research works}
+
+The main idea of their approach is demonstrated in \cite{cav-pgf}, which focuses on computing the exact distribution of the output of a probabilistic program. Followed by this paper, \cite{OOPSLA2024-inf-loop} and \cite{lafi-inf} extended the technique to automated Bayesian inference.
+To comprehend their research work, one need familiarity with generating functions, which can be obtained from \cite{gfbook}.
+
+\section{Goals}
+
+In this course project, we plan to investigate into the aforementioned research works, and develop tools that can automatically verify simple probabilistic programs. We shall do a presentation in class and submit a written project report.
+
+\appendix
+\section*{Outline of the presentation and the report}
+\setlength{\parskip}{0pt}
+\begin{enumerate}
+	\item background: relevance of probabilistic programming and verifications
+	\item overview of the solution
+	\item syntax and semantics of a probabilistic programming language
+	\item review of generating functions
+	\item PGF denotational semantics of probabilistic programs
+	\item implementation, experiments on demos
+	\item discussion: related work and future research directions
+\end{enumerate}
+
+\printbibliography
+
+\end{document}
