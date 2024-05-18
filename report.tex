@@ -1,0 +1,74 @@
+\documentclass[a4paper]{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage[backend=biber]{biblatex}
+\addbibresource{ref.bib}
+
+\title{Final Report\\
+	\small Verifying Output Distribution Equivalence for Rectangular Discrete Probabilistic Programs via the PGF transformer semantics
+}
+\date{Finished on \today}
+\author{Cheng Peng (2020533068)}
+
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+	Randomized behavior is ubiquitous and inevitable in real-world programs, especially in certain security-critical domains like cryptography and cyber-physics systems.
+	However, the lack of the efficient algorithms and data structures for representing and manipulating distributions makes it difficult to automatically verify the correctness of probabilistic programs.
+	Transitional methods are only capable of computing digests of probability distributions, e.g., the expectation and variance, which are insufficient.\par
+	Recently, the MOVES research team headed by Prof. Katoen Joost-Pieter at RWTH Aachen proposed using generating function transformer semantics in automated verification of probabilistic programs.
+	This novel approach preserves the entire distribution carried by programs, making it a possible to build a complete verification method.\par
+	In this course project, we will investigate into the theoretical foundation of the approach, the PGF transformer semantics, and develop proof-of-concept tools that can verify a simple program generates exactly the desired distribution.
+\end{abstract}
+
+\section{Introduction}
+
+\subsection{Backgrounds}
+
+Randomness arises naturally when modeling the physics processes and are of special interest in various fields such as approximate algorithms and fair scheduling. Probabilistic programming has been a hot-spot of research in recent years. Many researchers are working on providing correctness grantee for probabilistic programs.\\
+The research team lead by Prof. Katoen Joost-Pieter at RWTH Aachen proposed a unified framework for automated verification and inference of probabilistic programs. They devised denotational semantics of probabilistic programs on probability generating functions, and developed automated tools for computing PGF transformers of probabilistic programs.
+
+\subsection{Previous methodologies}
+
+The main idea of their approach is demonstrated in \cite{cav-pgf}, which focuses on computing the exact distribution of the output of a probabilistic program. Followed by this paper, \cite{OOPSLA2024-inf-loop} and \cite{lafi-inf} extended the technique to automated Bayesian inference.
+To comprehend their research work, one need familiarity with generating functions, which can be obtained from \cite{gfbook}.
+
+\subsection{Overview of the PGF denotational semantics based inference}
+
+\section{The probabilistic programming language: NDRP}
+
+NDPR stands for Naive Discrete Randomized Programs.
+The language is call \texttt{ReDiP} Rectangular Discrete Probabilistic Programming Language.
+The main restriction is that
+
+\subsection{Syntax of NDRP}
+
+\subsection{Semantics of NDRP}
+
+\section{PGF denontational semantics of NDRP}
+
+\subsection{Review on Probability Generating Functions (PGFs)}
+
+\subsection{Distribution transformation of NDRP}
+
+\section{Evaluation}
+
+\subsection{Experiment setup}
+
+\subsection{Results}
+
+\section{Discussion}
+
+\subsection{Limitation of the approach}
+
+\subsection{State of the method}
+
+\subsection{Future research work}
+
+\appendix
+\setlength{\parskip}{0pt}
+\printbibliography
+
+\end{document}
