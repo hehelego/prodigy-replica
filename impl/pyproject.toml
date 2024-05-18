@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "impl"
+version = "0.1.0"
+description = ""
+authors = ["hehelego <hahalegao@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+sympy = "^1.12"
+probably = {git = "https://github.com/Philipp15b/probably.git"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
