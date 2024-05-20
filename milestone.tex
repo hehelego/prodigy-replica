@@ -18,7 +18,7 @@
 \DeclareMathOperator*{\VARS}{Var}
 \DeclareMathOperator*{\PARMS}{Parm}
 \DeclareMathOperator*{\iid}{iid}
-\DeclareMathOperator*{\lfp}{fix}
+\DeclareMathOperator*{\fix}{fix}
 \renewcommand{\S}[1]{ \llbracket #1 \rrbracket }
 
 
@@ -34,7 +34,7 @@
 \begin{abstract}
 	Randomized behavior is ubiquitous and inevitable in real-world programs, especially in certain security-critical domains like cryptography and cyber-physics systems.
 	However, the lack of the efficient algorithms and data structures for representing and manipulating distributions makes it difficult to automatically verify the correctness of probabilistic programs.
-	Transitional methods are only capable of computing digests of probability distributions, e.g., the expectation and variance, which are insufficient.\par
+	Traditional methods are only capable of computing digests of probability distributions, e.g., the expectation and variance, which are insufficient.\par
 	Recently, the MOVES research team headed by Prof. Katoen Joost-Pieter at RWTH Aachen proposed probability generating function transformer semantics of probabilistic programs and devised automated verification techniques based the semantics.
 	This novel approach preserves the entire distribution carried by programs, enabling precise reasoning about the behavior of probabilistic programs.\par
 	In this course project, we will investigate into the theoretical foundation of the approach, the PGF transformer semantics, and develop proof-of-concept tools that can verify a simple program generates exactly the desired distribution.
@@ -122,7 +122,7 @@ The following table captures the semantics of basic constructions of ReDiP. Here
 		\(P;Q\)                       & \(\S{Q} \circ \S{P}\)                                                                  \\
 		if \((x<n)\) \{P\} else \{Q\} & \(g\mapsto \S{P}(g_{x<n}) + \S{Q}(g-g_{x<n})\)                                         \\
 		while \((x<n)\) \{P\}         & \(\lfp F_{x<n,P}\) where \(F_{x<n,P}(F)=g\mapsto (g-g_{x<n}) + F(\S{P}(f_{x<n})) \)    \\
-		\{P\} [p] \{Q\}               & semantics of \(x = \iid(Bernoulli(1-p),1)\); if \((x<1)\) \{P\} else \{Q\} \\
+		\{P\} [p] \{Q\}               & semantics of \(x = \iid(Bernoulli(1-p),1)\); if \((x<1)\) \{P\} else \{Q\}             \\
 		\hline
 	\end{tabular}
 \end{center}

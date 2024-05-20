@@ -1,5 +1,8 @@
 \documentclass[a4paper]{article}
 \usepackage{amsmath, amssymb, amsthm}
+\usepackage{xcolor}
+\usepackage{syntax}
+\usepackage{stmaryrd}
 \usepackage[backend=biber]{biblatex}
 \addbibresource{ref.bib}
 
@@ -9,6 +12,13 @@
 \date{Finished on \today}
 \author{Cheng Peng (2020533068)}
 
+\DeclareMathOperator*{\PGF}{PGF}
+\DeclareMathOperator*{\SOP}{SOP}
+\DeclareMathOperator*{\VARS}{Var}
+\DeclareMathOperator*{\PARMS}{Parm}
+\DeclareMathOperator*{\iid}{iid}
+\DeclareMathOperator*{\lfp}{fix}
+\renewcommand{\S}[1]{ \llbracket #1 \rrbracket }
 
 \begin{document}
 
@@ -17,41 +27,53 @@
 \begin{abstract}
 	Randomized behavior is ubiquitous and inevitable in real-world programs, especially in certain security-critical domains like cryptography and cyber-physics systems.
 	However, the lack of the efficient algorithms and data structures for representing and manipulating distributions makes it difficult to automatically verify the correctness of probabilistic programs.
-	Transitional methods are only capable of computing digests of probability distributions, e.g., the expectation and variance, which are insufficient.\par
-	Recently, the MOVES research team headed by Prof. Katoen Joost-Pieter at RWTH Aachen proposed using generating function transformer semantics in automated verification of probabilistic programs.
-	This novel approach preserves the entire distribution carried by programs, making it a possible to build a complete verification method.\par
-	In this course project, we will investigate into the theoretical foundation of the approach, the PGF transformer semantics, and develop proof-of-concept tools that can verify a simple program generates exactly the desired distribution.
+	Traditional methods are only capable of computing digests of probability distributions, e.g., the expectation and variance, which are insufficient.\par
+	Recently, the MOVES research team headed by Prof. Katoen Joost-Pieter at RWTH Aachen proposed probability generating function transformer semantics of probabilistic programs and devised automated verification techniques based the semantics.
+	This novel approach preserves the entire distribution carried by programs, enabling precise reasoning about the behavior of probabilistic programs.\par
+	In this course project, we investigate the theoretical foundation of the aforementioned approach, the PGF transformer semantics, and develop proof-of-concept tools that can verify a simple program generates exactly the desired distribution.
 \end{abstract}
 
 \section{Introduction}
 
-\subsection{Backgrounds}
+\subsection{Motivation}
 
-Randomness arises naturally when modeling the physics processes and are of special interest in various fields such as approximate algorithms and fair scheduling. Probabilistic programming has been a hot-spot of research in recent years. Many researchers are working on providing correctness grantee for probabilistic programs.\\
-The research team lead by Prof. Katoen Joost-Pieter at RWTH Aachen proposed a unified framework for automated verification and inference of probabilistic programs. They devised denotational semantics of probabilistic programs on probability generating functions, and developed automated tools for computing PGF transformers of probabilistic programs.
+\begin{itemize}
+	\item Randomness is pervasive, arising naturally and inevitably in certain context.
+	      For example, applications interacting with the physical world have to handle noisy input.
+	      Models of crowd dynamics often involves non-deterministic motions.
+	      Furthermore, randomness is a key to efficient algorithms and data structure.
+	\item Probabilistic programs often function as the key component of security-critical systems,
+	      for example, cryptograpy libraries are bedrock of online banking systems.
+	      Therefore, it is necessary to verify the correctness of probabilistic programs.
+	\item It is common to require that the output distribution of a program matches exactly with a pre-determined distribution.
+	      Unaware of tiny deviation from the desired distribution may lead to side-channel leak or introduce vulnerabilites.
+	      Previous approaches focusing on deriving expecation or establishing bounds are thus insufficient,
+	      since they are not sensitive to small perturbations.
+\end{itemize}
 
-\subsection{Previous methodologies}
+% Randomness arises naturally when modeling the physics processes and are of special interest in various fields such as approximate algorithms and fair scheduling. Probabilistic programming has been a hot-spot of research in recent years. Many researchers are working on providing correctness grantee for probabilistic programs.\\
+% The research team lead by Prof. Katoen Joost-Pieter at RWTH Aachen proposed a unified framework for automated verification and inference of probabilistic programs. They devised denotational semantics of probabilistic programs on probability generating functions, and developed automated tools for computing PGF transformers of probabilistic programs.
 
-The main idea of their approach is demonstrated in \cite{cav-pgf}, which focuses on computing the exact distribution of the output of a probabilistic program. Followed by this paper, \cite{OOPSLA2024-inf-loop} and \cite{lafi-inf} extended the technique to automated Bayesian inference.
-To comprehend their research work, one need familiarity with generating functions, which can be obtained from \cite{gfbook}.
+% The main idea of their approach is demonstrated in \cite{cav-pgf}, which focuses on computing the exact distribution of the output of a probabilistic program. Followed by this paper, \cite{OOPSLA2024-inf-loop} and \cite{lafi-inf} extended the technique to automated Bayesian inference.
+% To comprehend their research work, one need familiarity with generating functions, which can be obtained from \cite{gfbook}.
 
-\subsection{Overview of the PGF denotational semantics based inference}
+\section{Problem Statement}
 
-\section{The probabilistic programming language: NDRP}
+\section{The ReDiP Programming Language}
 
-NDPR stands for Naive Discrete Randomized Programs.
-The language is call \texttt{ReDiP} Rectangular Discrete Probabilistic Programming Language.
-The main restriction is that
+\subsection{The pGCL programming language}
 
-\subsection{Syntax of NDRP}
+\subsection{Restrictions on pGCL}
 
-\subsection{Semantics of NDRP}
+\subsection{Execution Tree Based Operational Semantics}
 
-\section{PGF denontational semantics of NDRP}
+\section{PGF transformer semantics of ReDiP}
 
 \subsection{Review on Probability Generating Functions (PGFs)}
 
 \subsection{Distribution transformation of NDRP}
+
+\section{Verifying Equivalence of linear PGF transformers}
 
 \section{Evaluation}
 
@@ -66,6 +88,8 @@ The main restriction is that
 \subsection{State of the method}
 
 \subsection{Future research work}
+
+\subsection{Related works}
 
 \appendix
 \setlength{\parskip}{0pt}
