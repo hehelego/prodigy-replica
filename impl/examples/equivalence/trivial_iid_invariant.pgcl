@@ -3,7 +3,7 @@ nat m;
 nat tmp;
 
 if (0 < n){
-    tmp := iid(unif(1,6), n)
+    tmp := iid(unif(1,1), n)
     m := m+tmp
     n := 0
     tmp := 0

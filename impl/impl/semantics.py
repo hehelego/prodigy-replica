@@ -44,9 +44,10 @@ def bernoulli_pgf(p) -> SExpr:
 
 
 def unif_pgf(l, r) -> SExpr:
-    # unif(l,r) = l + unif(r-l)
-    n = r - l
-    return t**l * (sympy.Integer(1) - t**n) / (n * (1 - t))
+    # unif(l,r) = l + unif(0, r-l)
+    one = sympy.Integer(1)
+    n = r - l + one
+    return t**l / n * (one - t**n) / (one - t)
 
 
 def geom_pgf(p) -> SExpr:
@@ -127,13 +128,13 @@ def transform(
             (IfInstr, if_trans),
             (ChoiceInstr, choice_trans),
             (LoopInstr, loop_trans),
-            (TickInstr, None),
-            (ObserveInstr, None),
-            (ProbabilityQueryInstr, None),
-            (ExpectationInstr, None),
-            (PlotInstr, None),
-            (PrintInstr, None),
-            (OptimizationQuery, None),
+            # (TickInstr, None),
+            # (ObserveInstr, None),
+            # (ProbabilityQueryInstr, None),
+            # (ExpectationInstr, None),
+            # (PlotInstr, None),
+            # (PrintInstr, None),
+            # (OptimizationQuery, None),
         ]
         for (instrType, trans) in funcs:
             if isinstance(inst, instrType):
