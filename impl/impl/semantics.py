@@ -1,5 +1,6 @@
 from probably.pgcl import CheckFail, compiler
-from probably.pgcl.ast import Expr, BernoulliExpr, Binop, BinopExpr, Unop, UnopExpr, DUniformExpr, GeometricExpr, PoissonExpr, IidSampleExpr, VarExpr, NatLitExpr, RealLitExpr, Var, Instr, SkipInstr, WhileInstr, IfInstr, AsgnInstr, ChoiceInstr, LoopInstr, TickInstr, ObserveInstr, ProbabilityQueryInstr, ExpectationInstr, PlotInstr, PrintInstr, OptimizationQuery
+from probably.pgcl.ast import Expr, BernoulliExpr, Binop, BinopExpr, Unop, UnopExpr, DUniformExpr, GeometricExpr, PoissonExpr, IidSampleExpr, VarExpr, NatLitExpr, RealLitExpr, Var, Instr, SkipInstr, WhileInstr, IfInstr, AsgnInstr, ChoiceInstr, LoopInstr
+# from probably.pgcl.ast import TickInstr, ObserveInstr, ProbabilityQueryInstr, ExpectationInstr, PlotInstr, PrintInstr, OptimizationQuery
 import sympy
 from typing import Callable, Iterable, Any
 

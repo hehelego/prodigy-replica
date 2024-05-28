@@ -5,7 +5,11 @@ from impl.semantics import get_map, get_delta, transform
 
 
 def check(prog1: Program, prog2: Program):
-    xs, us, vmap, pmap = get_map(prog1.variables.keys(), prog1.parameters.keys())
+    vars = set(prog1.variables.keys())
+    assert vars == set(prog2.variables.keys())
+    params = set(prog1.parameters.keys()).union(prog2.parameters.keys())
+
+    xs, us, vmap, pmap = get_map(vars, params)
     delta = get_delta(xs, us)
 
     print('computing transform for the input program')
@@ -21,8 +25,8 @@ def check(prog1: Program, prog2: Program):
 def main():
     parser = ArgumentParser('equiv', 'equiv <p1.pgcl> <p2.pgcl>',
                             'check equivalence of two ReDiP programs')
-    parser.add_argument('prog1')
-    parser.add_argument('prog2')
+    parser.add_argument('prog1', help='path to a ReDiP program')
+    parser.add_argument('prog2', help='path to a ReDiP program')
     args = parser.parse_args()
     prog1, prog2 = None, None
     with open(args.prog1) as f:
