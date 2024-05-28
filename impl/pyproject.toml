@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.12"
 sympy = "^1.12"
 probably = {git = "https://github.com/Philipp15b/probably.git"}
+numpy = "^1.26.4"
 
 
 [build-system]
