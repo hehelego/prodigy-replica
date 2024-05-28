@@ -142,52 +142,82 @@ The PGF semantics of ReDiP programs can be generalized to SOP semantics, which a
 
 ## question
 
-### question 1: do we really need the exact distribution
+### limitation 1: do we really need full distribution information
 
-Is that really the case?
-Some approximations are really good.
+The authors of the PRODIGY paper argues that techniques for evaluating probability of events and moments of variables are sometimes insufficient since they let-go tiny perturbations which may leave vulnerabilities undetected.
+The argument is not examplified by concrete examples nor supportted by quantitative calculations, which puts its validity in doubt.
 
-Say that we use the following digest:
+For example, consider two probabilistic programs that output $X_1$ and $X_2$ respectively.
+We can symbolically evaluate and compare $D(X_1) - D(X_2)$ with $0$ to check whether $X_1$ and $X_2$ have the same distribution.
 
 $$
-E(X),
-E(X^2),
-E(X^3),
-E(X^4),
+D(X) = (\mathbb{E}(X^k); \Pr(X>\mathbb{E}X/k)) \quad k=1,2,3\ldots 10
 $$
 
-I think bias will be revealed, probably. Think. $E({(X+d)}^k)$.
+We deem that such method is good enough even in security critical scenarios.
 
-We probably cannot distinguish two distributions of the same family whose parameters vary a little bit.
-But we will not confuse different kinds of distributions.
+One future research may compare the suitability of PGF based techniques and statistics based technique in the verification of real-world programs.
 
+### extension 1: what if we are interested in only a subset of valid inputs
 
-### question 2: what if we are interested in only a subset of valid inputs
+The Leibniz equivalence (indistinguishable for arbitrary input $f=g$ iff $\forall x. f(x)=g(x)$).
+We Often just need to check $\forall x \in S . f(x) = g(x)$.
 
-We don't necessarily need the "equivalent on arbitrary inputs".
-Perhaps we just want $f(x) = g(x)$ for all $x\in S$.
+One of such scenario is that in a performance critical program, we may be able to apply certain optimization whose correctness can only be proved in a certain context.
+Say that in one branch, we know that the program state $x$ satisfies $P(x)$. We may want to check $\forall x . P(x) \to (f(x)=g(x))$.
 
-Say that we are doing some optimization, and we know that at this point,
-the value of the parameters falls in a specific domain $D$.
-We may want to verify that _for all inputs in the domain D, the two programs give equivalent output_.
-
-While this is possible for a flexible programming language and a specification language.
-The restrictions of ReDiP makes it impossible some times.
-
+In a flexible programming language, such equivalence checking can be formulated readily:
 
 ```haskell
+-- input: x
+-- prog: a program that handles input x such that P(x) is true
+-- cond: the P(x) predicate
 restrict :: (a -> Bool) -> (a -> b) -> (a -> Maybe b)
 restrict cond prog input = if cond input
                            then Just (prog input)
                            else Nothing
+
+-- check equivalence: (restrict p f) (restrict p g)
 ```
 
-We can just verify equivalence `restrict domain f == restrict domain g`,
-if the language allow encoding sufficiently complex conditions.
-However, that is not the case of ReDiP, which imposes a rather strict constraint on guards.
+However, ReDiP imposes rather strict constraints on guards, making some predicate not expressible.
 
+How can we lift the rectangular constraint is a valuable future research direction.
 
+### extension 2: incorporating real-valued variable using CF/MGF
 
+PGF is essentially the Z transform of the joint PMF.
+To enable support for continuous random variables, one may try replacing PGFs with CFs, which are Laplace transform of the joint PDF.
+
+However, introducing Laplance transform may break the closed-form preservation property of ReDiP programs (that is, a rational PGF get transformed into another rational PGF),
+potentially making equivalence checking undecidable.
+
+Future works may explore effective and efficient way to add support for continuous random variables.
+
+### extension 3: checking equivalence of reactive programs
+
+Cryptographic systems and automated driving systems are often open-ended reactive system, meaning that they never halt (or terminate).
+
+PRODIGY, however, can only tackle UAST programs, so it is incapable of verifying reactive systems.
+For example, PRODIGY will not able to check the equivalence of the following two programs:
+
+```python
+# program 1
+init1()
+while True:
+    input()
+    update1()
+    output1()
+
+# program 2
+init2()
+while True:
+    input()
+    update2()
+    output2()
+```
+
+It remains to be explored how to formulate the PGF transformer semantics for reactive systems.
 
 ## milestone
 
