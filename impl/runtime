@@ -1,0 +1,33 @@
+Efficiency test
+
+dep_bern.pgcl:                     6.81 seconds.
+dueling_cowboys_parameter.pgcl:    4.61 seconds.
+geometric.pgcl:                    2.62 seconds.
+geometric_observe.pgcl:            2.72 seconds.
+geometric_observe_parameter.pgcl:  4.90 seconds.
+geometric_parameter.pgcl:          4.45 seconds.
+geometric_shifted.pgcl:            6.18 seconds.
+ky_die.pgcl:                       18.5 seconds.
+ky_die_2.pgcl:                     3.96 seconds.
+ky_die_parameter.pgcl:             26.0 seconds.
+n_geometric.pgcl:                  2.37 seconds.
+negative_binomial_parameter.pgcl:  4.07 seconds.
+random_walk.pgcl:                  4.46 seconds.
+running_paper_example.pgcl:        2.36 seconds.
+trivial_iid.pgcl:                  1.85 seconds.
+
+
+
+Scalability benchmarking:
+
+loop  1 iterations:   2.75 secs
+loop  2 iterations:  10.90 secs
+loop  3 iterations:  19.36 secs
+loop  4 iterations:  30.84 secs
+loop  5 iterations:  43.52 secs
+loop  6 iterations:  58.54 secs
+loop  7 iterations:  72.68 secs
+loop  8 iterations:  90.30 secs
+loop  9 iterations: 105.35 secs
+loop 10 iterations: 122.72 secs
+
