@@ -1,0 +1,207 @@
+checking dep_bern.pgcl
+detected vars ['c', 'm', 'n', 'tmp'] params []
+computing transform for the input program
+(-u0*(x1 + x2)*(u3*x3 - 1)*(u0*x1 + u0*x2 - u0*(x1 + x2) - 2)/2 - (u3 - 1)*(u0*x1 + u0*x2 - 2))/((u3 - 1)*(u1*x1 - 1)*(u2*x2 - 1)*(u3*x3 - 1)*(u0*x1 + u0*x2 - 2))
+computing transform for the spec
+u0*(x1 + x2)/(u0*u1*u2*u3*x1**2*x2 + u0*u1*u2*u3*x1*x2**2 - u0*u1*u2*x1**2*x2 - u0*u1*u2*x1*x2**2 - u0*u1*u3*x1**2 - u0*u1*u3*x1*x2 + u0*u1*x1**2 + u0*u1*x1*x2 - u0*u2*u3*x1*x2 - u0*u2*u3*x2**2 + u0*u2*x1*x2 + u0*u2*x2**2 + u0*u3*x1 + u0*u3*x2 - u0*x1 - u0*x2 - 2*u1*u2*u3*x1*x2 + 2*u1*u2*x1*x2 + 2*u1*u3*x1 - 2*u1*x1 + 2*u2*u3*x2 - 2*u2*x2 - 2*u3 + 2) - 1/((u1*x1 - 1)*(u2*x2 - 1)*(u3*x3 - 1))
+comparing results
+0
+check result: True within 6.812429356999928 seconds.
+checking dueling_cowboys_parameter.pgcl
+detected vars ['c', 't'] params ['a', 'b']
+computing transform for the input program
+(-p0*p1 + p0 + p1 + u0*x0*(u0*x0 - 1)*(-p0*p1 + p0 + p1) - u0*(u0*x0 - 1)*(x0*(u1*x1 - 1)*(u1*x1 + 1)*(-p0*p1 + p0 + p1) + x0*(-p0*p1 + p0 + p1) - (u1*x1 - 1)*(-p0*p1*u1 - p0*p1*x1 + p0*u1 + p0 + p1*u1*x1 + p1*x1)))/((u0*x0 - 1)*(u1*x1 - 1)*(-p0*p1 + p0 + p1))
+computing transform for the spec
+(-u0*(u1**2*x0*x1**2*(-p0*p1 + p0 + p1) - (u1*x1 - 1)*(-p0*p1*x1 + p0 + p1*x1 + u1*(-p0*p1 + p0 + p1*x1)))*(u0*u1*x0*x1 - u0*x0 - u1*x1 + 1) + (u1*x1 - 1)*(-p0*p1 + p0 + p1)*(u0**2*x0**2 - u0*x0 + 1))/((u1*x1 - 1)*(-p0*p1 + p0 + p1)*(u0*u1*x0*x1 - u0*x0 - u1*x1 + 1))
+comparing results
+0
+check result: True within 4.613009717009845 seconds.
+checking geometric.pgcl
+detected vars ['c', 'temp', 'x'] params []
+computing transform for the input program
+(-u2*x2*(u1 - 1)*(x0 - 2)*(u2*x2 - 1) - u2*(u1*x1 - 1)*(u2*x2 - 1) - (u1 - 1)*(x0 - 2))/((u1 - 1)*(x0 - 2)*(u0*x0 - 1)*(u1*x1 - 1)*(u2*x2 - 1))
+computing transform for the spec
+(-u2*(u1*x1 - 1)*(u2*x2 - 1) - (u1 - 1)*(x0 - 2)*(u2*x2*(u2*x2 - 1) + 1))/((u1 - 1)*(x0 - 2)*(u0*x0 - 1)*(u1*x1 - 1)*(u2*x2 - 1))
+comparing results
+0
+check result: True within 2.623489886012976 seconds.
+checking geometric_observe.pgcl
+detected vars ['tmp', 'x', 'y'] params []
+computing transform for the input program
+(-u2*x1*(u0*x0 - 1)*(u2*x2 - 1) - u2*x2*(u0 - 1)*(x1 - 2)*(u2*x2 - 1) - (u0 - 1)*(x1 - 2))/((u0 - 1)*(x1 - 2)*(u0*x0 - 1)*(u1*x1 - 1)*(u2*x2 - 1))
+computing transform for the spec
+(-u2*x1*(u0*x0 - 1)*(u2*x2 - 1) - (u0 - 1)*(x1 - 2)*(u2*x2*(u2*x2 - 1) + 1))/((u0 - 1)*(x1 - 2)*(u0*x0 - 1)*(u1*x1 - 1)*(u2*x2 - 1))
+comparing results
+0
+check result: True within 2.7265229469921906 seconds.
+checking geometric_observe_parameter.pgcl
+detected vars ['tmp', 'x', 'y'] params ['p']
+computing transform for the input program
+(p0*u2*x1*(u0*x0 - 1)*(u2*x2 - 1)*(p0*x1 - x1*(p0 - 1) - x1 + 1) - u2*x2*(u0 - 1)*(u2*x2 - 1)*(p0*x1 - x1 + 1) - (u0 - 1)*(p0*x1 - x1 + 1))/((u0 - 1)*(u0*x0 - 1)*(u1*x1 - 1)*(u2*x2 - 1)*(p0*x1 - x1 + 1))
+computing transform for the spec
+(p0*u2*x1*(u0*x0 - 1)*(u2*x2 - 1) - (u0 - 1)*(u2*x2*(u2*x2 - 1) + 1)*(p0*x1 - x1 + 1))/((u0 - 1)*(u0*x0 - 1)*(u1*x1 - 1)*(u2*x2 - 1)*(p0*x1 - x1 + 1))
+comparing results
+0
+check result: True within 4.909680632001255 seconds.
+checking geometric_parameter.pgcl
+detected vars ['c', 'temp', 'x'] params ['p']
+computing transform for the input program
+(p0*u2*(u1*x1 - 1)*(u2*x2 - 1)*(p0*x0 - x0*(p0 - 1) - x0 + 1) - u2*x2*(u1 - 1)*(u2*x2 - 1)*(p0*x0 - x0 + 1) - (u1 - 1)*(p0*x0 - x0 + 1))/((u1 - 1)*(u0*x0 - 1)*(u1*x1 - 1)*(u2*x2 - 1)*(p0*x0 - x0 + 1))
+computing transform for the spec
+(p0*u2*(u1*x1 - 1)*(u2*x2 - 1) - (u1 - 1)*(u2*x2*(u2*x2 - 1) + 1)*(p0*x0 - x0 + 1))/((u1 - 1)*(u0*x0 - 1)*(u1*x1 - 1)*(u2*x2 - 1)*(p0*x0 - x0 + 1))
+comparing results
+0
+check result: True within 4.458107009995729 seconds.
+checking geometric_shifted.pgcl
+detected vars ['c', 'temp', 'x'] params ['p']
+computing transform for the input program
+-p0*u2*x0**3/(p0*u0*u1*u2*x0**2 - p0*u0*u1*x0**2 - p0*u0*u2*x0**2 + p0*u0*x0**2 - p0*u1*u2*x0 + p0*u1*x0 + p0*u2*x0 - p0*x0 - u0*u1*u2*x0**2 + u0*u1*u2*x0 + u0*u1*x0**2 - u0*u1*x0 + u0*u2*x0**2 - u0*u2*x0 - u0*x0**2 + u0*x0 + u1*u2*x0 - u1*u2 - u1*x0 + u1 - u2*x0 + u2 + x0 - 1) + 1/((u0*x0 - 1)*(u1*x1 - 1))
+computing transform for the spec
+-p0*u2*x0**3/((p0*x0 - x0 + 1)*(u0*u1*u2*x0 - u0*u1*x0 - u0*u2*x0 + u0*x0 - u1*u2 + u1 + u2 - 1)) + 1/((u0*x0 - 1)*(u1*x1 - 1))
+comparing results
+0
+check result: True within 6.184885242008022 seconds.
+checking ky_die.pgcl
+detected vars ['die', 's'] params []
+computing transform for the input program
+(u0 - x0*x1**7*(u0*x0 - 1)*(u1*x1 - 1)*(u1*(u1*(6*u1*(u1**3*x0**5 + u1**2*x0**4 + u1**2*x0**3 + u1*x0**2 + u1*x0 + 1) + x0**3*(3*x0 + 3) + x0**3*(4*x0**2 + x0 + 1)) + 4*x0*(x0 + 1) + 4) + 2*x0**3*(u1**6 + 1)*(x0**2 + x0 + 1) + 2*(u1**3 + 1)*(x0**2 + x0 + 1))/12 + (u0 - 1)*(u1*x1 - 1)*(u1**6*x1**6 + u1**5*x1**5 + u1**4*x1**4 + u1**3*x1**3 + u1**2*x1**2 + u1*x1 + 1) - 1)/((u0 - 1)*(u0*x0 - 1)*(u1*x1 - 1))
+computing transform for the spec
+x1**7*(u1*(x0 - 1)*(u1*(u1*(u1*(u1*(u1*(6*u1*(u0 - 1) - x0**4*(4*x0**2 + x0 + 1)*(u0*u1*x0*x1 - u0*x0 - u1*x1 + 1)) - 3*x0**4*(x0 + 1)*(u0*u1*x0*x1 - u0*x0 - u1*x1 + 1)) - 3*x0**2*(x0 + 1)*(u0*u1*x0*x1 - u0*x0 - u1*x1 + 1)) - x0*(x0*(x0 + 1) + 4)*(u0*u1*x0*x1 - u0*x0 - u1*x1 + 1)) - 2*x0**4*(x0**2 + x0 + 1)*(u0*u1*x0*x1 - u0*x0 - u1*x1 + 1)) - 2*x0*(x0**2 + x0 + 1)*(u0*u1*x0*x1 - u0*x0 - u1*x1 + 1)) - x0*(x0**6 - 1)*(u0*u1*x0*x1 - u0*x0 - u1*x1 + 1))/(6*(u0 - 1)*(x0 - 1)*(u0*u1*x0*x1 - u0*x0 - u1*x1 + 1))
+comparing results
+0
+check result: True within 18.505309683998348 seconds.
+checking ky_die_2.pgcl
+detected vars ['die', 's'] params []
+computing transform for the input program
+(u0 - x0*x1**3*(u0*x0 - 1)*(u1*x1 - 1)*(u1*(x0**2 + x0 + 1) + 3*u1*(u1*x0**2 + u1*x0 + 1) + 2*x0*(x0 + 1) + 2)/6 + (u0 - 1)*(u1*x1 - 1)*(u1**2*x1**2 + u1*x1 + 1) - 1)/((u0 - 1)*(u0*x0 - 1)*(u1*x1 - 1))
+computing transform for the spec
+x1**3*(u1*(3*u1*(2*u1*(u0 - 1) - x0**2*(x0 + 1)*(u0*u1*x0*x1 - u0*x0 - u1*x1 + 1)) - x0*(x0*(x0 + 1) + 4)*(u0*u1*x0*x1 - u0*x0 - u1*x1 + 1)) - 2*x0*(x0**2 + x0 + 1)*(u0*u1*x0*x1 - u0*x0 - u1*x1 + 1))/(6*(u0 - 1)*(u0*u1*x0*x1 - u0*x0 - u1*x1 + 1))
+comparing results
+0
+check result: True within 3.9615226989990333 seconds.
+checking ky_die_parameter.pgcl
+detected vars ['die', 's'] params ['p', 'q']
+computing transform for the input program
+(u0 - x0*x1**7*(u0*x0 - 1)*(u1*x1 - 1)*(3*u1*(p0 + u1*(u1*(u1**3*x0**5 + u1**2*x0**4 + u1**2*x0**3 + u1*x0**2 + u1*x0 + 1) + x0**3*(p1 - x0*(p1 - 1)) + x0**3*(p0*x0**2 - (p0 - 1)*(p1 - x0*(p1 - 1)))) - x0*(p0 - 1)*(-p1*x0 + p1 + x0) + x0*(-p1*x0 + p1 + x0)) + x0**3*(u1**6 + 1)*(x0**2 + x0 + 1) + (u1**3 + 1)*(x0**2 + x0 + 1))/6 + (u0 - 1)*(u1*x1 - 1)*(u1**6*x1**6 + u1**5*x1**5 + u1**4*x1**4 + u1**3*x1**3 + u1**2*x1**2 + u1*x1 + 1) - 1)/((u0 - 1)*(u0*x0 - 1)*(u1*x1 - 1))
+computing transform for the spec
+x1**7*(2*u1*(x0 - 1)*(u1*(3*u1*(u1*(u1*(u1*(u1*(u0 - 1) - x0**4*(p0*x0**2 - (p0 - 1)*(p1 - x0*(p1 - 1)))*(u0*u1*x0*x1 - u0*x0 - u1*x1 + 1)) - x0**4*(p1 - x0*(p1 - 1))*(u0*u1*x0*x1 - u0*x0 - u1*x1 + 1)) - x0**2*(p1 - x0*(p1 - 1))*(u0*u1*x0*x1 - u0*x0 - u1*x1 + 1)) - x0*(p0 - x0*(p0 - 1)*(p1 - x0*(p1 - 1)))*(u0*u1*x0*x1 - u0*x0 - u1*x1 + 1)) - x0**4*(x0**2 + x0 + 1)*(u0*u1*x0*x1 - u0*x0 - u1*x1 + 1)) - x0*(x0**2 + x0 + 1)*(u0*u1*x0*x1 - u0*x0 - u1*x1 + 1)) - x0*(x0**6 - 1)*(u0*u1*x0*x1 - u0*x0 - u1*x1 + 1))/(6*(u0 - 1)*(x0 - 1)*(u0*u1*x0*x1 - u0*x0 - u1*x1 + 1))
+comparing results
+0
+check result: True within 26.078411702997983 seconds.
+checking n_geometric.pgcl
+detected vars ['c', 'n', 'tmp'] params []
+computing transform for the input program
+(-u1*(u2*x2 - 1) + (u2 - 1)*(u1 + x0 - 2))/((u2 - 1)*(u0*x0 - 1)*(u2*x2 - 1)*(u1 + x0 - 2))
+computing transform for the spec
+-u1/(u0*u1*u2*x0 - u0*u1*x0 + u0*u2*x0**2 - 2*u0*u2*x0 - u0*x0**2 + 2*u0*x0 - u1*u2 + u1 - u2*x0 + 2*u2 + x0 - 2) + 1/((u0*x0 - 1)*(u2*x2 - 1))
+comparing results
+0
+check result: True within 2.3792988950008294 seconds.
+checking negative_binomial_parameter.pgcl
+detected vars ['i', 'n', 'temp'] params ['p']
+computing transform for the input program
+(-p0*u1*x0*(u2*x2 - 1)*(-p0*u1*x0 + p0*x0 + x0*(p0*u1 - p0 + 1) - x0 + 1) + (u2 - 1)*(p0*u1*x0 - p0*x0 + x0 - 1))/((u2 - 1)*(u0*x0 - 1)*(u2*x2 - 1)*(p0*u1*x0 - p0*x0 + x0 - 1))
+computing transform for the spec
+-p0*u1*x0/(p0*u0*u1*u2*x0**2 - p0*u0*u1*x0**2 - p0*u0*u2*x0**2 + p0*u0*x0**2 - p0*u1*u2*x0 + p0*u1*x0 + p0*u2*x0 - p0*x0 + u0*u2*x0**2 - u0*u2*x0 - u0*x0**2 + u0*x0 - u2*x0 + u2 + x0 - 1) + 1/((u0*x0 - 1)*(u2*x2 - 1))
+comparing results
+0
+check result: True within 4.070935577998171 seconds.
+checking random_walk.pgcl
+detected vars ['c', 's', 'tmp'] params []
+computing transform for the input program
+(-u1*(u2*x2 - 1)*(u1*x0*sqrt(1 - x0**2) - u1*x0 + x0**2 - x0*(u1*sqrt(1 - x0**2) - u1 + x0) + 2*sqrt(1 - x0**2) - 2)/2 + (u2 - 1)*(u1*sqrt(1 - x0**2) - u1 + x0))/((u2 - 1)*(u0*x0 - 1)*(u2*x2 - 1)*(u1*sqrt(1 - x0**2) - u1 + x0))
+computing transform for the spec
+-u1*(sqrt(1 - x0**2) - 1)/(u0*u1*u2*x0*sqrt(1 - x0**2) - u0*u1*u2*x0 - u0*u1*x0*sqrt(1 - x0**2) + u0*u1*x0 + u0*u2*x0**2 - u0*x0**2 - u1*u2*sqrt(1 - x0**2) + u1*u2 + u1*sqrt(1 - x0**2) - u1 - u2*x0 + x0) + 1/((u0*x0 - 1)*(u2*x2 - 1))
+comparing results
+0
+check result: True within 4.461139948994969 seconds.
+checking running_paper_example.pgcl
+detected vars ['c', 'tmp', 'x'] params []
+computing transform for the input program
+(-u2*(u1*x1 - 1) + (u1 - 1)*(u2 + x0 - 2))/((u1 - 1)*(u0*x0 - 1)*(u1*x1 - 1)*(u2 + x0 - 2))
+computing transform for the spec
+-u2/(u0*u1*u2*x0 + u0*u1*x0**2 - 2*u0*u1*x0 - u0*u2*x0 - u0*x0**2 + 2*u0*x0 - u1*u2 - u1*x0 + 2*u1 + u2 + x0 - 2) + 1/((u0*x0 - 1)*(u1*x1 - 1))
+comparing results
+0
+check result: True within 2.3686905479989946 seconds.
+checking trivial_iid.pgcl
+detected vars ['m', 'n', 'tmp'] params []
+computing transform for the input program
+-u1*x0/(u0*u1*u2*x0**2 - u0*u1*x0**2 - u0*u2*x0 + u0*x0 - u1*u2*x0 + u1*x0 + u2 - 1) + 1/((u0*x0 - 1)*(u2*x2 - 1))
+computing transform for the spec
+-u1*x0/(u0*u1*u2*x0**2 - u0*u1*x0**2 - u0*u2*x0 + u0*x0 - u1*u2*x0 + u1*x0 + u2 - 1) + 1/((u0*x0 - 1)*(u2*x2 - 1))
+comparing results
+0
+check result: True within 1.8521410499961348 seconds.
+Scalability benchmarking:
+loop 1 iterations
+
+________________________________________________________
+Executed in    2.80 secs    fish           external
+   usr time    2.75 secs  127.00 micros    2.75 secs
+   sys time    0.05 secs  127.00 micros    0.05 secs
+
+loop 2 iterations
+
+________________________________________________________
+Executed in   10.99 secs    fish           external
+   usr time   10.90 secs  224.00 micros   10.90 secs
+   sys time    0.08 secs    0.00 micros    0.08 secs
+
+loop 3 iterations
+
+________________________________________________________
+Executed in   19.45 secs    fish           external
+   usr time   19.36 secs    0.00 micros   19.36 secs
+   sys time    0.08 secs  235.00 micros    0.08 secs
+
+loop 4 iterations
+
+________________________________________________________
+Executed in   30.93 secs    fish           external
+   usr time   30.84 secs    0.00 micros   30.84 secs
+   sys time    0.09 secs  226.00 micros    0.09 secs
+
+loop 5 iterations
+
+________________________________________________________
+Executed in   43.65 secs    fish           external
+   usr time   43.52 secs   95.00 micros   43.52 secs
+   sys time    0.12 secs   95.00 micros    0.12 secs
+
+loop 6 iterations
+
+________________________________________________________
+Executed in   58.65 secs    fish           external
+   usr time   58.54 secs   99.00 micros   58.54 secs
+   sys time    0.11 secs   98.00 micros    0.11 secs
+
+loop 7 iterations
+
+________________________________________________________
+Executed in   72.83 secs    fish           external
+   usr time   72.68 secs  109.00 micros   72.68 secs
+   sys time    0.13 secs  109.00 micros    0.13 secs
+
+loop 8 iterations
+
+________________________________________________________
+Executed in   90.41 secs    fish           external
+   usr time   90.30 secs  254.00 micros   90.30 secs
+   sys time    0.10 secs    0.00 micros    0.10 secs
+
+loop 9 iterations
+
+________________________________________________________
+Executed in  105.49 secs    fish           external
+   usr time  105.35 secs  155.00 micros  105.35 secs
+   sys time    0.13 secs  155.00 micros    0.13 secs
+
+loop 10 iterations
+
+________________________________________________________
+Executed in  122.82 secs    fish           external
+   usr time  122.72 secs  109.00 micros  122.72 secs
+   sys time    0.09 secs  109.00 micros    0.09 secs
+
+
