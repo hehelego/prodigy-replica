@@ -6,6 +6,7 @@ from typing import Callable, Iterable, Any
 
 SExpr = Any
 TransFunc = Callable[[Instr, SExpr], SExpr]
+SupportedDistr = (BernoulliExpr, GeometricExpr, PoissonExpr, DUniformExpr)
 
 
 def get_map(
@@ -38,25 +39,25 @@ def get_delta(xs: list[SExpr], us: list[SExpr]) -> SExpr:
 
 
 t = sympy.symbols('t')
+one = sympy.Integer(1)
 
 
 def bernoulli_pgf(p) -> SExpr:
-    return sympy.Integer(1) - p + p * t
+    return one - p + p * t
 
 
 def unif_pgf(l, r) -> SExpr:
     # unif(l,r) = l + unif(0, r-l)
-    one = sympy.Integer(1)
     n = r - l + one
-    return t**l / n * (one - t**n) / (one - t)
+    return (t**l - t**(r + 1)) / n / (1 - t)
 
 
 def geom_pgf(p) -> SExpr:
-    return (sympy.Integer(1) - p) / (sympy.Integer(1) - p * t)
+    return p / (one - (one - p) * t)
 
 
 def pois_pgf(s) -> SExpr:
-    return sympy.exp(s * (t - sympy.Integer(1)))
+    return sympy.exp(s * (t - one))
 
 
 def eval_expr(expr: Expr, pmap: dict[Var, SExpr]) -> SExpr:
@@ -80,7 +81,7 @@ def eval_expr(expr: Expr, pmap: dict[Var, SExpr]) -> SExpr:
             case Binop.POWER:
                 return l**r
     elif isinstance(expr, VarExpr):
-        return pmap[expr.var]
+        return pmap.get(expr.var, t)
     raise NotImplementedError(rf'cannot evaluate: {expr}')
 
 
@@ -160,25 +161,18 @@ def transform(
         if isinstance(expr, NatLitExpr):
             n = expr.value
             g = g.limit(x, 1) * x**n
-        elif isinstance(expr, (
-                BernoulliExpr,
-                DUniformExpr,
-                GeometricExpr,
-                PoissonExpr,
-        )):
+        elif isinstance(expr, SupportedDistr):
             pgf = get_pgf(expr, pmap)
             g = g.limit(x, 1) * pgf.subs(t, x)
         elif isinstance(expr, IidSampleExpr):
             dist = expr.sampling_dist
             y = xs[vmap[expr.variable.var]]
-            assert isinstance(dist, (
-                BernoulliExpr,
-                DUniformExpr,
-                GeometricExpr,
-                PoissonExpr,
-            ))
-            pgf = get_pgf(dist, pmap).subs(t, x)
-            g = g.limit(x, 1).subs(y, y * pgf)
+            if isinstance(dist, SupportedDistr):
+                pgf = get_pgf(dist, pmap).subs(t, x)
+                g = g.limit(x, 1).subs(y, y * pgf)
+            else:
+                pgf = eval_expr(dist, pmap).subs(t, x)
+                g = g.limit(x, 1).subs(y, y * pgf)
         elif isinstance(expr, BinopExpr):
             op = expr.operator
             assert isinstance(expr.lhs, VarExpr) and expr.lhs.var == dest
@@ -267,7 +261,7 @@ def transform(
         return g.simplify()
 
     def while_trans(inst: WhileInstr, g: SExpr) -> SExpr:
-        inv_file = input('invariant program:').strip()
+        inv_file = input().strip()
         inv_prog = None
         with open(inv_file) as f:
             inv_prog = compiler.compile_pgcl(f.read())
@@ -280,7 +274,7 @@ def transform(
     def choice_trans(inst: ChoiceInstr, g: SExpr) -> SExpr:
         p = eval_expr(inst.prob, pmap)
         g_on = p * seq(inst.lhs, g)
-        g_off = (sympy.Integer(1) - p) * seq(inst.rhs, g)
+        g_off = (one - p) * seq(inst.rhs, g)
         return (g_on + g_off).simplify()
 
     def loop_trans(inst: LoopInstr, g: SExpr) -> SExpr:
