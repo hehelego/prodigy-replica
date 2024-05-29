@@ -42,6 +42,8 @@ def eval_expr(expr: Expr, map: dict[Var, SExpr]) -> SExpr:
             case Binop.POWER:
                 return l**r
             # part 2
+            case Binop.EQ:
+                return l == r
             case Binop.LT:
                 return l < r
             case Binop.LEQ:
