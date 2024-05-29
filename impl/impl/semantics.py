@@ -1,4 +1,4 @@
-from probably.pgcl import CheckFail, compiler
+from probably.pgcl import CheckFail, parse_pgcl
 from probably.pgcl.ast import Expr, BernoulliExpr, Binop, BinopExpr, Unop, UnopExpr, DUniformExpr, GeometricExpr, PoissonExpr, IidSampleExpr, VarExpr, NatLitExpr, RealLitExpr, Var, Instr, SkipInstr, WhileInstr, IfInstr, AsgnInstr, ChoiceInstr, LoopInstr
 # from probably.pgcl.ast import TickInstr, ObserveInstr, ProbabilityQueryInstr, ExpectationInstr, PlotInstr, PrintInstr, OptimizationQuery
 import sympy
@@ -249,6 +249,11 @@ def transform(
                     swapped_cond = BinopExpr(rev_op[op], cond.rhs, cond.lhs)
                     swapped = IfInstr(swapped_cond, br1, br0)
                     g = if_trans(swapped, g)
+                elif str(cond) == '(c % 2) = 0':
+                    x = xs[vmap['c']]
+                    # true: even terms, false: odd terms
+                    h = (g + g.subs(x, -x)) / (one + one)
+                    g = seq(br1, h) + seq(br0, g - h)
                 else:
                     raise NotImplementedError(
                         rf'unsupported if condition: {cond}')
@@ -264,7 +269,7 @@ def transform(
         inv_file = input().strip()
         inv_prog = None
         with open(inv_file) as f:
-            inv_prog = compiler.compile_pgcl(f.read())
+            inv_prog = parse_pgcl(f.read())
             if isinstance(inv_prog, CheckFail):
                 raise ValueError('failed to compile the invariant program:')
         body = inst.body + inv_prog.instructions

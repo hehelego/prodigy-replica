@@ -1,4 +1,4 @@
-from probably.pgcl import CheckFail, compiler, Program
+from probably.pgcl import CheckFail, parse_pgcl, Program
 from argparse import ArgumentParser
 import time
 from impl.semantics import get_map, get_delta, transform
@@ -36,12 +36,12 @@ def main():
     args = parser.parse_args()
     prog1, prog2 = None, None
     with open(args.prog1) as f:
-        prog1 = compiler.compile_pgcl(f.read())
+        prog1 = parse_pgcl(f.read())
         if isinstance(prog1, CheckFail):
             print('failed to compile the program:', prog1)
             exit(1)
     with open(args.prog2) as f:
-        prog2 = compiler.compile_pgcl(f.read())
+        prog2 = parse_pgcl(f.read())
         if isinstance(prog2, CheckFail):
             print('failed to compile the spec:', prog2)
             exit(1)
