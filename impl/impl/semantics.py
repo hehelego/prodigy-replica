@@ -103,14 +103,7 @@ def get_pgf(
 
 
 def pgf_leq(g: SExpr, x: sympy.Symbol, n: int) -> SExpr:
-    h = sympy.Integer(0)
-    fac = sympy.Integer(1)
-    for i in range(n + 1):
-        h += (g / fac).limit(x, 0) * x**i
-        h = sympy.simplify(h)
-        g = g.diff(x).simplify()
-        fac *= sympy.Integer(i + 1)
-    return h
+    return sum(g.taylor_term(i, x) for i in range(n + 1)).simplify()
 
 
 def transform(
@@ -236,38 +229,31 @@ def transform(
                     Binop.GT: Binop.LT,
                     Binop.EQ: Binop.EQ
                 }
-                assert op in (Binop.LEQ, Binop.LT, Binop.GEQ, Binop.GT,
-                              Binop.EQ)
+                assert op in rev_op
                 if isinstance(cond.lhs, VarExpr) and isinstance(
                         cond.rhs, NatLitExpr):
                     x = xs[vmap[cond.lhs.var]]
                     n = cond.rhs.value
                     match op:
-                        case Binop.LEQ:
-                            left = pgf_leq(g, x, n)
-                            right = g - left
-                            g = seq(br1, left) + seq(br0, right)
-                        case Binop.LT:
-                            left = pgf_leq(g, x, n - 1)
-                            right = g - left
-                            g = seq(br1, left) + seq(br0, right)
-                        case Binop.GEQ:
-                            right = pgf_leq(g, x, n - 1)
-                            left = g - right
-                            g = seq(br1, left) + seq(br0, right)
-                        case Binop.GT:
-                            right = pgf_leq(g, x, n)
-                            left = g - right
-                            g = seq(br1, left) + seq(br0, right)
-                        case Binop.EQ:
-                            df = sympy.diff(g, x, n) / sympy.factorial(n)
-                            eq = df.limit(x, 0) * x**n
-                            neq = g - eq
-                            g = seq(br1, eq) + seq(br0, neq)
+                        case Binop.LEQ:  # true: leq, false: gt
+                            h = pgf_leq(g, x, n)
+                            g = seq(br1, h) + seq(br0, g - h)
+                        case Binop.LT:  # true: lt, false: geq
+                            h = pgf_leq(g, x, n - 1)
+                            g = seq(br1, h) + seq(br0, g - h)
+                        case Binop.GEQ:  # true: geq, false: lt
+                            h = pgf_leq(g, x, n - 1)
+                            g = seq(br1, g - h) + seq(br0, h)
+                        case Binop.GT:  # true: gt, false: leq
+                            h = pgf_leq(g, x, n)
+                            g = seq(br1, g - h) + seq(br0, h)
+                        case Binop.EQ:  # true: eq, false: neq
+                            h = g.taylor_term(n, x)
+                            g = seq(br1, h) + seq(br0, g - h)
                 elif isinstance(cond.rhs, VarExpr) and isinstance(
                         cond.lhs, NatLitExpr):
-                    swapped = IfInstr(
-                        BinopExpr(rev_op[op], cond.rhs, cond.lhs), br0, br1)
+                    swapped_cond = BinopExpr(rev_op[op], cond.rhs, cond.lhs)
+                    swapped = IfInstr(swapped_cond, br0, br1)
                     g = if_trans(swapped, g)
                 else:
                     raise NotImplementedError(

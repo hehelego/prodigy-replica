@@ -9,16 +9,22 @@ def check(prog1: Program, prog2: Program):
     assert vars == set(prog2.variables.keys())
     params = set(prog1.parameters.keys()).union(prog2.parameters.keys())
 
+    vars, params = sorted(vars), sorted(params)
+    print(f'detected vars {vars} params {params}')
+
     xs, us, vmap, pmap = get_map(vars, params)
     delta = get_delta(xs, us)
 
     print('computing transform for the input program')
     g1 = transform(vmap, pmap, xs, prog1.instructions, delta)
+    print(g1.simplify())
+
     print('computing transform for the spec')
     g2 = transform(vmap, pmap, xs, prog2.instructions, delta)
+    print(g2.simplify())
+
     print('comparing results')
-    print(g1)
-    print(g2)
+    print((g1 - g2).simplify())
     return (g1 - g2).simplify() == 0
 
 
