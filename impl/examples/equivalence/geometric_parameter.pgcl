@@ -1,8 +1,9 @@
 nat x;
 nat c;
 nat temp;
+rparam p;
 
 while (x = 1){
- {x := 0} [1/3] {c := c+1}
- temp :=0
+ {x := 0} [p] {c := c+1}
+ temp := 0
 }

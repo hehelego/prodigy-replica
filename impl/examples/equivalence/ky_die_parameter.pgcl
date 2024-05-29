@@ -1,5 +1,7 @@
 nat s;
 nat die;
+rparam p;
+rparam q;
 
 while (s < 7) {
     if (s = 0){

@@ -4,6 +4,6 @@ nat temp;
 rparam p;
 
 while (x > 0){
- {x := 0; c := c + 3 } [1/2] {c := c+1}
+ {x := 0; c := c + 3 } [p] {c := c+1}
  temp := 0
 }
