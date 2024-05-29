@@ -3,3 +3,13 @@ nat c;
 while (c%2=0){
   c := geometric(1/2)
 }
+
+
+// g(t) = E(t^X)
+// 
+// 
+// f( t) = p0 + p1 t + p2 t^2 + p3 t^3 + p4 t^4
+// f(-t) = p0 - p1 t + p2 t^2 - p3 t^3 + p4 t^4
+// f(t) + f(-t)/2 = p0 + p2 t^2
+// 
+

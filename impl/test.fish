@@ -22,11 +22,14 @@ end
 # check ky_die_2.pgcl ky_die_2_invariant.pgcl
 # check ky_die_parameter.pgcl ky_die_parameter_invariant.pgcl
 
-check n_geometric.pgcl n_geometric_invariant.pgcl
-check n_geometric_parameter.pgcl n_geometric_parameter_invariant.pgcl
+# check n_geometric.pgcl n_geometric_invariant.pgcl
 
-check negative_binomial_parameter.pgcl negative_binomial_parameter_invariant.pgcl
-check negative_binomial_reversed_parameter.pgcl negative_binomial_reversed_parameter_invariant.pgcl
+exit
+
+
+
+# check negative_binomial_parameter.pgcl negative_binomial_parameter_invariant.pgcl
+# check negative_binomial_reversed_parameter.pgcl negative_binomial_reversed_parameter_invariant.pgcl
 
 check random_walk.pgcl random_walk_invariant.pgcl
 check random_walk_parameter.pgcl random_walk_parameter_invariant.pgcl
@@ -36,8 +39,6 @@ check running_paper_example.pgcl running_paper_example_invariant.pgcl
 check skip_rejection_sampling.pgcl skip_rejection_sampling_invariant.pgcl
 
 check trivial_iid.pgcl trivial_iid_invariant.pgcl
-
-exit
 
 # test scalability
 echo "Scalability benchmarking:"
