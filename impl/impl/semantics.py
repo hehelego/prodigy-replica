@@ -260,7 +260,7 @@ def transform(
         elif isinstance(cond, UnopExpr):
             # if (not phi) P else Q <=> if (phi) Q else P
             assert cond.operator == Unop.NEG
-            g = if_trans(IfInstr(cond, br0, br1), g)
+            g = if_trans(IfInstr(cond.expr, br0, br1), g)
         else:
             raise NotImplementedError(rf'unsupported if condition: {cond}')
         return g.simplify()
