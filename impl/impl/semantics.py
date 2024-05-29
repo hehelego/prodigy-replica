@@ -199,7 +199,7 @@ def transform(
                     # E(t^X s^Y) => E(t^(X+Y) s^Y) = E(t^X s^Y t^Y) = E(t^X (st)^Y)
                     g = g.subs(y, x * y)
                 else:
-                    # E(t^X s^Y) => E(t^(X-Y) s^Y) = E(t^X s^(-Y) t^Y) = E(t^X (t/s)^Y)
+                    # E(t^X s^Y) => E(t^(X-Y) s^Y) = E(t^X s^Y t^(-Y)) = E(t^X (s/t)^Y)
                     g = g.subs(y, y / x)
             else:
                 raise NotImplementedError(
@@ -253,7 +253,7 @@ def transform(
                 elif isinstance(cond.rhs, VarExpr) and isinstance(
                         cond.lhs, NatLitExpr):
                     swapped_cond = BinopExpr(rev_op[op], cond.rhs, cond.lhs)
-                    swapped = IfInstr(swapped_cond, br0, br1)
+                    swapped = IfInstr(swapped_cond, br1, br0)
                     g = if_trans(swapped, g)
                 else:
                     raise NotImplementedError(
