@@ -1,0 +1,140 @@
+\documentclass[11pt]{beamer}
+
+\usetheme{Madrid}
+\usepackage{multicol}
+\usepackage{biblatex}
+\usepackage{ulem}
+\addbibresource{ref.bib}
+
+\usepackage{tikz}
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\DeclareGraphicsExtensions{.png,PNG,.jpg,.JPG,.jpeg,.JPEG,.pdf,.PDF}
+\usepackage{subcaption}
+\usepackage{amsmath, amsthm, amssymb}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\title{PGF transformer semantics}
+\author{Cheng Peng \and Dantong Liu}
+\date{\today}
+
+\AtBeginSection[] % Do nothing for \section*
+{
+	\begin{frame}<beamer>
+		\frametitle{Contents in this section}
+		\begin{multicols}{2}
+		\tableofcontents[currentsection]
+		\end{multicols}
+	\end{frame}
+}
+
+% 10 minutes presenting
+% 5 minutes Q&A
+\begin{document}
+
+\maketitle
+\begin{frame}{You may have doubts}
+	The theme: \emph{PGF transform semantics} based \emph{equivalence checking} of pGCL programs
+
+	\hfill
+
+	\begin{block}{Equivalence checking?}
+		This work is about linearity no normalization is ever involved.
+	\end{block}
+
+	\begin{block}{I heard the problem is undecidable!}
+		We will focus on a restricted fragment of pGCL called ReDiP.
+	\end{block}
+\end{frame}
+
+\section{Introduction}
+\subsection{Backgrounds}
+\begin{frame}{Backgrounds}
+
+\end{frame}
+\subsection{Limitations of previous works}
+\begin{frame}{Motivation}
+
+\end{frame}
+
+\section{Formulation}
+\subsection{Research questions}
+\begin{frame}{The research questions}
+
+\end{frame}
+\subsection{Overview of the solution}
+\begin{frame}{Overview of our solution}
+
+\end{frame}
+
+\section{pGCL and ReDiP}
+\subsection{Syntax and Semantics of pGCL}
+\begin{frame}{Syntax of pGCL}
+
+\end{frame}
+\begin{frame}{Semantics of pGCL}
+
+\end{frame}
+\subsection{Restrictions on pGCL: ReDiP}
+\begin{frame}{A fragement of pGCL: ReDiP}
+
+\end{frame}
+
+\section{PGF transformer semantics}
+\subsection{Review on PGFs}
+\begin{frame}{Review on PGFs}
+
+\end{frame}
+\subsection{PGF transformer semantics of ReDiP}
+\begin{frame}{PGF transformer semantics}
+
+\end{frame}
+\subsection{Handling loops with fixed point induction}
+\begin{frame}{Fixed Point Induction}
+
+\end{frame}
+\subsection{Properties of the PGF transformer semantics}
+\begin{frame}{Linearity \& Closed-form preservation}
+
+\end{frame}
+\begin{frame}{Summary}
+
+\end{frame}
+
+\section{Evaluation}
+\subsection{Setup}
+\begin{frame}{Benchmark setup}
+
+\end{frame}
+\subsection{Results}
+\begin{frame}{Results}
+
+\end{frame}
+\subsection{Case Study}
+\begin{frame}{Case Study}
+
+\end{frame}
+
+\section{Discussion}
+\subsection{Conclusion of this project}
+\begin{frame}{Conclusion}
+\end{frame}
+\subsection{Future works}
+\begin{frame}{Limitations and future works}
+\end{frame}
+\begin{frame}[c]{Q \& A}
+	Questions are welcomed.
+\end{frame}
+
+\appendix
+
+\section{references}
+\begin{frame}[allowframebreaks]{references}
+	\nocite{*}
+	\renewcommand*{\bibfont}{\tiny}
+	\printbibliography
+\end{frame}
+
+\end{document}

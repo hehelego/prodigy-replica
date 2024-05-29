@@ -186,6 +186,7 @@ How can we lift the rectangular constraint is a valuable future research directi
 
 ### extension 2: incorporating real-valued variable using CF/MGF
 
+<<<<<<< Updated upstream
 PGF is essentially the Z transform of the joint PMF.
 To enable support for continuous random variables, one may try replacing PGFs with CFs, which are Laplace transform of the joint PDF.
 
@@ -218,6 +219,19 @@ while True:
 ```
 
 It remains to be explored how to formulate the PGF transformer semantics for reactive systems.
+
+### question 3: modularity
+
+How can we add modular reasoning?
+Say that the program state (also the input parameters) can be partioned into 3 parts A,B.
+We have a function that operates entirely on A, another function that operates entirely on B
+Is there a way to combine those two things?
+
+It is a vague statement but...
+
+This is somewhat relavent as practical programs is not always fully tangled inside. (I mean dependencies tend to be sparse not dense).
+
+In PRODIGY, modularity, in principle, can be done.
 
 ## milestone
 

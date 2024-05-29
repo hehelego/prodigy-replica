@@ -20,6 +20,12 @@
 \DeclareMathOperator*{\lfp}{fix}
 \renewcommand{\S}[1]{ \llbracket #1 \rrbracket }
 
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+
 \begin{document}
 
 \maketitle
@@ -57,21 +63,107 @@
 % The main idea of their approach is demonstrated in \cite{cav-pgf}, which focuses on computing the exact distribution of the output of a probabilistic program. Followed by this paper, \cite{OOPSLA2024-inf-loop} and \cite{lafi-inf} extended the technique to automated Bayesian inference.
 % To comprehend their research work, one need familiarity with generating functions, which can be obtained from \cite{gfbook}.
 
-\section{Problem Statement}
+\subsection{Overview}
+
+% introduce the framework of PRODIGY
+% what we are trying to answer
+% the input languages
+% the output languages
+% the checking algorithm key idea
+In this project, we reimplemented the PRODIGY verifier.
+
+\begin{description}
+	\item[??] ?
+\end{description}
 
 \section{The ReDiP Programming Language}
 
+% put the pGCL syntax here
 \subsection{The pGCL programming language}
 
-\subsection{Restrictions on pGCL}
+% give a few examples demonstrating the power of pGCL.
 
 \subsection{Execution Tree Based Operational Semantics}
+
+\subsection{Restrictions on pGCL}
 
 \section{PGF transformer semantics of ReDiP}
 
 \subsection{Review on Probability Generating Functions (PGFs)}
 
-\subsection{Distribution transformation of NDRP}
+\subsubsection{definitions and forms}
+
+1D formal power series:
+
+\[
+	f = \sum_{i=0}^\infty f_i x^i
+\]
+
+This can be extended to 2D scenario:
+
+\[
+	f = \sum_{i=0}^\infty\sum_{j=0}^\infty f_{i,j} x^i y^j
+\]
+
+And even \(k\in\mathbb{N}\) dimension, for indeterminate \(\mathbb{X}=(X_1,X_2,\ldots,X_k)\):
+
+\[
+	f = \sum_{\sigma\in\mathbb{N}^k} f(\sigma) \mathbf{X}^\sigma
+	\quad
+	f:\mathbb{N}^k\to\mathbb{R},
+	X^\sigma = \prod_{i=1}^k X_i^{\sigma_i}
+\]
+
+Rational PGFs: for \(n,m\in\mathbb{N}\),
+
+\[
+	g = \frac{\sum_{i=0}^n A_i X^i}{\sum_{j=0}^m B_j X^j}
+\]
+
+If a formal power series is the Taylor series of a rational function, we say that it is in closed form.
+
+\subsubsection{operations}
+
+The PGF of random vector \(\mathbf{X} = (X_1,X_2,\ldots X_k)\) is defined as
+
+\[
+	g = \mathbb{E} \exp\left( t_1^{X_1} t_2^{X_2} \ldots t_k^{X_k} \right)
+\]
+
+Consider the operation \(g[X_i/0]\) to set \(X_i=0\)
+
+\[
+	g[X_i/0] = \mathbb{E} \exp\left( t_1^{X_1} \ldots t_i^{0} \ldots t_k^{X_k} \right)
+\]
+
+The operation \(g X_i^n\) to set \(X_i \gets X_i + n\)
+
+\[
+	g X_i^n = \mathbb{E} \exp\left( t_1^{X_1} \ldots t_i^{(X_i+n)}\ldots t_k^{X_k} \right)
+\]
+
+Suppose that we have a random variable \(Y\) whose PGF is \(h = \mathbb{E}(t^Y)\) then. Essentially setting \(X_i \gets X_i + Y\).
+
+\[
+	g h[t/t_i] = \mathbb{E} \exp\left( t_1^{X_1} \ldots t_i^{(X_i+Y)}\ldots t_k^{X_k} \right)
+\]
+
+Further more, say that we draw \(X_i\) iid samples from a distribution \(\mathbf{D}\) of PGF \(h(t)\), then. That is to set \(X_i \gets X_i + \iid(D, X_j)\)
+
+\[
+	g[t_j / (t_j h[t/t_i])] = 
+	\mathbb{E} \exp\left( t_1^{X_1} \ldots t_i^{X_i} h(t_i)^{X_j} \cdot t_j^{X_j}\ldots t_k^{X_k} \right)
+\]
+
+\subsection{Distribution transformation of ReDiP}
+
+\begin{theorem}{closed form preservation of ReDiP}
+	For a loop-free ReDiP program, and a rational PGF \(f/g\),
+	\(\S{P}(f/g)\) is also a rational PGF.
+\end{theorem}
+\begin{proof}
+	By induction on the program structure.
+\end{proof}
 
 \section{Verifying Equivalence of linear PGF transformers}
 
