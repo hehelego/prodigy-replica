@@ -11,20 +11,19 @@ def visualize(dx, dy):
     plt.ylabel('m')
 
     for i, j in product(range(len(xedges) - 1), range(len(yedges) - 1)):
-        bin_count = hist[i, j]
-        if bin_count > 0:
+        n = hist[i, j]
+        if n > 0:
             x = (xedges[i] + xedges[i + 1]) / 2
-            y = (yedges[j] + yedges[j + 1]) / 2
-            plt.text(x, y, bin_count, color='black', ha='center', va='center')
+            y = (yedges[j] + yedges[j + 1]) / 2 - 0.03
+            plt.text(x, y, str(int(n)), color='black', ha='left', va='top')
 
-
-plt.subplot(1, 2, 1)
-plt.title('10k runs: $n=bin(0.5, 7)$ and $m=7-n$')
+plt.subplot(2, 1, 1)
+plt.title('10k runs: $n=bin(0.5, 7)$ $m=7-n$')
 visualize(r1x, r1y)
 
-plt.subplot(1, 2, 2)
+plt.subplot(2, 1, 2)
 plt.title('10k runs: n,m = H/T in 7 coin tosses')
 visualize(r2x, r2y)
 
-plt.tight_layout()
+plt.tight_layout(pad=2)
 plt.savefig('comp-bin.pdf')
