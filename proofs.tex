@@ -1,0 +1,227 @@
+\documentclass{article}
+
+\usepackage{amsmath,amssymb}
+\usepackage{syntax}
+\usepackage{stmaryrd}
+\usepackage[margin=1cm]{geometry}
+
+\newcommand{\E}{\mathbb{E}}
+\renewcommand{\S}[1]{ \llbracket #1 \rrbracket }
+
+\DeclareMathOperator*{\PGF}{PGF}
+\DeclareMathOperator*{\SOP}{SOP}
+\DeclareMathOperator*{\VARS}{Var}
+\DeclareMathOperator*{\PARMS}{Parm}
+\DeclareMathOperator*{\iid}{iid}
+\DeclareMathOperator*{\lfp}{fix}
+
+\begin{document}
+
+\section{Examples of generating functions}
+
+\[
+	\begin{array}{l|l|l}
+		\text{GF }g(x) & \text{seq }[x^n]g & \text{parameters}       \\
+		\hline
+		(1-ax)^k       & \binom{k}{n}a^n   & a,k\in\mathbb{R}^{\ast} \\
+		(1-x)^{-2}     & n+1               &                         \\
+		x^k            & [n=k]             & k\in\mathbb{N}^{+}      \\
+		e^{kx}         & k^n/n!            & k\in\mathbb{R}^{\ast}   \\
+		\ln(1+x)       & \frac{-1}{n}      & n\geq 1                 \\
+	\end{array}
+\]
+
+\section{on Probability Generating Functions}
+
+\begin{itemize}
+	\item represent distributions using generating functions
+	\item operating random variable is manipulating PGFs
+	\item reasoning in closed-form to reduce tedious calculation
+\end{itemize}
+
+\(X,Y \sim p(x,y)\) then \(g_{XY}(s,t) = \E(s^X t^Y) = \sum_{i,j} p(i,j) s^i t^j\)\\
+\(\frac{\partial}{\partial x} g(1,t) = \E(X t^Y)\) and \(\frac{\partial^2}{\partial x^2} g(1,t) = \E(X(X-1) t^Y)\)\\
+\(Z=X+Y\), \(\mathbb{E}(t^Z) = \mathbb{E}(t^X t^Y) = \mathbb{E}(t^X) \mathbb{E}(t^Y)\) for independent $X,Y$\\
+
+
+\subsection{example of problem solving with PGFs}
+
+Let \(X_1, X_2, \ldots\) be a sequence of independent and identically distributed random variables with common PGF \(g_X(\cdot)\). Let \(N\) be a random variable, independent of the \(X_i\)s, with PGF \(g_N(\cdot)\), and let \(S=\sum_{i=1}^N X_i\).
+\begin{align*}
+	g_{S}(t) & = \E_{N,\mathbf{X}}\left\{ t^{\sum_{i=1}^N X_i} \right\}
+	= \E_N\left\{ \E_{\mathbf{X}|N}\left[ t^{\sum_{i=1}^N X_i} \mid N \right] \right\}
+	= \E_N\left\{ \E_{\mathbf{X}|N}\left[ \prod_{i=1}^N t^{X_i} \mid N \right] \right\}             \\
+	         & = \E_N\left\{ \prod_{i=1}^N \E_{\mathbf{X}|N}\left[  t^{X_i} \mid N \right] \right\}
+	= \E_N\left\{ \prod_{i=1}^N \E_{\mathbf{X}}\left[  t^{X_i} \right] \right\}
+	= \E_N\left\{ {(g_X(t))}^N \right\}                                                             \\
+	         & = \sum_{n=0}^{\infty} {(G_X(t))}^n \Pr(N=n)
+	= g_N(g_X(t))
+\end{align*}
+
+\section{Handling Conditions}
+
+For \(g(s,t) = \E(s^X t^Y) = \sum_{i,j} p(i,j)s^i t^j\).
+
+\noindent Recall that
+\[
+	\frac{\partial^k g}{\partial s^k} = \sum_{i\geq k}\sum_j i^{\underline k} p(i,j) s^{i-k} t^j
+\]
+
+\noindent Filtering out \((X,Y)\) such that \(X<n\).
+\[
+	g_{x<n}(s,t)
+	= \sum_{i < n} s^i \sum_j p(i,j) t^j
+	= \sum_{i < n} \frac{s^i}{i!} \left(\frac{\partial^i g}{\partial s^i}\right)(0,t)
+\]
+
+\noindent Derived ones: \(g_{x\leq n} = g_{x<n+1}\), \(g_{x>n} = g-g_{x\leq n}\), \(g_{x\geq n} = g-g_{x<n}\), and \(g_{x=n}=g_{x\geq n,x\leq n}\)
+
+\pagebreak
+\section{Linearity of PGF transformers of ReDiP}
+
+\begin{itemize}
+	\item \texttt{x := x+n} transformer \(g\mapsto s^n g\)
+	      \[
+		      (af + bg) \mapsto (af + bg)s^n = a(s^n f) + b(s^n g)
+	      \]
+	\item \texttt{x := x+y} transformer \(g\mapsto g[t/st]\)
+	      \[
+		      (af + bg) \mapsto (af + bg)[t/st] = a(f[t/st]) + b(g[t/st])
+	      \]
+	\item check other simple ReDiP program statements.
+	\item \texttt{P;Q} transformer \(g\mapsto \S{Q}(\S{P}(g))\). By induction
+	      \[
+		      (af+bg) \mapsto \S{Q}(a\S{P}(f) + b\S{Q}(g)) = a\S{Q}(\S{P}(g)) + b \S{Q}(\S{P}(g))
+	      \]
+\end{itemize}
+
+\newpage
+
+\section{Equivalence checking}
+
+For two ReDiP programs \(P_1,P_2\) whose state is \(g(X_1,X_2,\ldots X_n)\in\PGF(\mathbb{N}^n)\)
+
+\begin{itemize}
+	\item Equivalence checking: for all valid generating function of distributions over \(\mathbb{N}^n\).
+	      \[ \forall g \in\PGF(\mathbb{N}^n) \quad \S{P_1}(g) = \S{P_2}(g) \]
+	\item By linearity: for all pointmass distributions over \(\mathbb{N}^n\)
+	      \[ \forall (y_1,y_2,\ldots y_n) \in \mathbb{N}^n \quad \S{P_1}(X_1^{y_1}X_2^{y_2}\cdots X_n^{y_n}) = \S{P_2}(X_1^{y_1}X_2^{y_2}\cdots X_n^{y_n}) \]
+	\item Ebbed all n-dim pointmass PGFs into a 2n-dim PGF \(\delta(\mathbf{X};\mathbf{U})\)
+	      \[ \S{P_1}(\delta) = \S{P_2}(\delta) \]
+	      where
+	      \[
+		      \delta
+		      = \sum_{y_1,y_2,\ldots y_n} (U_1X_1)^{y_1}(U_2X_2)^{y_2}\cdots (U_nX_n)^{y_n}
+		      = \prod_{i=1}^n \left( \sum_j (X_iU_i)^j \right)
+		      = \prod_{i=1}^n (1-X_iU_i)^{-1}
+	      \]
+\end{itemize}
+
+\newpage
+\section{ReDiP semantics}
+
+- \verb|x := n| $g\mapsto g[t/1] s^n$
+$$
+	\mathbb{E}(s^X t^Y) \to s^n \mathbb{E}(1^X t^Y) = s^n \mathbb{E}(t^Y) = \mathbb{E}(s^n t^Y)
+$$
+- \verb|x := x+n| $g\mapsto g s^n$
+$$
+	\mathbb{E}(s^X t^Y) \to s^n \mathbb{E}(s^X t^Y) = \mathbb{E}(s^{X+n} t^Y)
+$$
+- \verb|x := x-1| $g\mapsto (g-g[s/0])s^{-1} + g[s/0]$ we have a special case of $X=0$ because 0 is already the smallest natural number.
+$$
+	\mathbb{E}(s^X t^Y) \to s^{-1}\mathbb{E}(s^X t^Y) = \mathbb{E}(s^{X-1} t^Y)
+$$
+- \verb|x := x+y| $g\mapsto g[t/st]$
+$$
+	\mathbb{E}(s^X t^Y) \to \mathbb{E}(s^X (st)^Y) = \mathbb{E}(s^{X+Y} t^Y)
+$$
+- \verb|x := D| samples from distribution $D$ with PGF $[D](r)$ $g\mapsto g[t/1] \cdot [D](t)$
+$$
+	\mathbb{E}(s^X t^Y) \to \mathbb{E}(s^D) \mathbb{E}(1^X t^Y) = \mathbb{E}(s^D t^Y)
+$$
+- \verb|x := iid(D,y)| random stopping sum (recall, PGF of random stopping sum) $g\mapsto g[s/1][t/t[D](s)]$
+$$
+	\mathbb{E}(s^X t^Y) \to \mathbb{E}(1^X t^Y {([D](s))}^Y) = \sum_{0\leq m} {([D](s))}^m t^m
+$$
+- \verb|P;Q1| sequential composition, trivial.
+- \verb|if(x<n){P}else{Q}| somewhat trivial...
+
+\newpage
+\section{syntax extensions}
+
+\begin{tabular}{ll}
+	\hline
+	\texttt{P [r] Q}                           & \(g\mapsto r\S{P}(g) + (1-r)\S{Q}(g)\)                      \\
+	\hline
+	\texttt{loop(n) P}                         & \(\S{P}(\S{P}\cdots \S{P}(g))\)                             \\
+	\texttt{x := x-n}                          & \texttt{loop(n) x := x-1}                                   \\
+	\hline
+	\texttt{if(\(p\land q\)) \{P\} else \{Q\}} & \texttt{if(\(p\))\{ if(\(q\))\{P\}else\{Q\} \} else\{Q\}}   \\
+	\texttt{if(\(p\lor q\)) \{P\} else \{Q\}}  & \texttt{if(\(p\))\{P\} else \{ if(\(q\))\{P\} else\{Q\} \}} \\
+	\texttt{if(\(\lnot p\)) \{P\} else \{Q\}}  & \texttt{if(\(p\)) \{Q\} else \{P\}}                         \\
+	\hline
+	\texttt{if(\(x\leq n\))  P else Q}         & \texttt{if(\(x<n+1\)) P else Q}                             \\
+	\texttt{if(\(x> n\))     P else Q}         & \texttt{if(\(x\leq n\)) Q else P}                           \\
+	\texttt{if(\(x\geq n\))  P else Q}         & \texttt{if(\(x<n\)) Q else P}                               \\
+	\texttt{if(\(x =  n\))   P else Q}         & \texttt{if(\(x\leq n \land x \geq n\)) P else Q}            \\
+	\texttt{if(\(x \neq n\)) P else Q}         & \texttt{if(\(\lnot (x=n)\)) P else Q}                       \\
+	\hline
+	\(x \bmod 2 = 0\)                          & \(g\mapsto \frac12(g[s/-s] + g)\)                           \\
+	\(x \bmod 2 = 1\)                          & \(g\mapsto \frac12(g - g[s/-s])\)                           \\
+	\hline
+\end{tabular}
+
+\section{closed-form presevation}
+
+ (Rational closed-form) A formal power series of the following form is amenable for computer algebra systems:
+
+\[
+	\dfrac{ \sum_{i=0}^n a_i x^i }
+	{ \sum_{j=0}^m b_j x^j }
+\]
+
+Closure property under addition/multiplication/inverse/variable substitution.
+
+\newpage
+\section{discussion}
+
+\subsection{equivalence under a specfic context}
+
+\begin{enumerate}
+	\item $[P_1|\phi](g) = [P_2|\phi](g)$
+	\item Brining support for conditional reasoning (\texttt{observe(..)} in pGCL) into ReDiP.
+	\item Expressing conditions besides rectangular ones, e.g., \(x^2 + y^2 < 1\)
+\end{enumerate}
+
+
+\subsection{incoporating real-valued variables using MGF/CF}
+
+A natural generalization
+
+\begin{align*}
+	 & \E(e^{sX + tY}) \to e^{cs} \E(e^{0X + tY}) = \E(e^{sc + tY}) \\
+	 & \E(e^{sX + tY}) \to \E(e^{sX + (t+s)Y}) = \E(e^{s(X+Y) tY})  \\
+\end{align*}
+
+Obstacles:
+
+\begin{enumerate}
+	\item rational closed-form preservation no longer holds.
+	\item Rectangular bound $x<c$ hard to express for MGF/CF
+\end{enumerate}
+
+\begin{align*}
+	\E(t^{X I(X<n)})  & = \sum_{x<n} p(x=n) t^n                      \\
+	\E(e^{tX I(X<n)}) & = \int_{-\infty}^{c} f(x) e^{tx} \mathrm{d}x \\
+\end{align*}
+
+\subsection{reactive programs}
+
+\begin{itemize}
+	\item The current approach works for UAST programs.
+	\item Reactive programs are naturally non-terminating.
+	\item Possible solution: bisimulation based equivalence checking.
+\end{itemize}
+
+\end{document}
