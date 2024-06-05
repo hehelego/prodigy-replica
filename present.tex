@@ -135,7 +135,7 @@ while (s < 7) {
 		\item[Verifier] check semantic equivalence, where the semantics of a program is
 		      \begin{itemize}
 			      \item A computational tree of configurations and transitions.
-			      \item A mhapping from initial configuration to a distribution of output states.
+			      \item A mapping from initial configuration to a distribution of output states.
 			      \item A (linear) transformer maps a PGF to another PGF.
 		      \end{itemize}
 		\item[Output] True/False.
@@ -162,7 +162,7 @@ while (s < 7) {
 	\end{columns}
 \end{frame}
 \subsection{Linear fragment of pGCL, ReDiP}
-\begin{frame}{A fragement of pGCL: ReDiP}
+\begin{frame}{A fragment of pGCL: ReDiP}
 	\begin{itemize}
 		\item No divergence statement.
 		\item All arithmetic expressions are linear/affine\\
@@ -208,7 +208,7 @@ while (s < 7) {
 				(1-x)^{-2}     & n+1               &                         \\
 				x^k            & [n=k]             & k\in\mathbb{N}^{+}      \\
 				e^{kx}         & k^n/n!            & k\in\mathbb{R}^{\ast}   \\
-				\ln(1+x)       & \frac{-1}{n}      & n\geq 1                 \\
+				\ln(1-x)       & \frac{-1}{n}      & n\geq 1                 \\
 			\end{array}
 		\]
 	\end{block}
@@ -318,7 +318,7 @@ while (s < 7) {
 		\item \texttt{P;Q} sequential composition: \(g\mapsto \S{Q}(\S{P}(g))\)
 	\end{itemize}
 
-	\begin{block}{make it sweet. syntactic sugar}
+	\begin{block}{make it sweet: syntactic sugar}
 		\begin{center}
 			\begin{tabular}{l|l}
 				\hline
@@ -400,10 +400,10 @@ if(cond){
 		      \[
 			      (af+bg) \mapsto \S{Q}(a\S{P}(f) + b\S{Q}(g)) = a\S{Q}(\S{P}(g)) + b \S{Q}(\S{P}(g))
 		      \]
-		\item Other compositonal statements \texttt{if(cond)\{P\}else\{Q\}} and \texttt{while(cond)\{P\}}.
+		\item Other compositional statements \texttt{if(cond)\{P\}else\{Q\}} and \texttt{while(cond)\{P\}}.
 	\end{itemize}
 \end{frame}
-\begin{frame}{Rational closed-form presevation}
+\begin{frame}{Rational closed-form preservation}
 	Rational closed-forms are amenable to computer algebra systems (e.g., sympy and GiNaC).
 	\[
 		\frac{f}{g} = \dfrac
@@ -429,7 +429,7 @@ if(cond){
 		      \[
 			      f/h \mapsto \S{Q}(\S{P}(f/h)) = \S{Q}(f_1/h_1) = f_2/h_2
 		      \]
-		\item Other compositonal statements \texttt{if(cond)\{P\}else\{Q\}} and \texttt{while(cond)\{P\}}.
+		\item Other compositional statements \texttt{if(cond)\{P\}else\{Q\}} and \texttt{while(cond)\{P\}}.
 	\end{itemize}
 \end{frame}
 
@@ -440,9 +440,9 @@ if(cond){
 	\begin{itemize}
 		\item Equivalence checking: for all valid generating function of distributions over \(\mathbb{N}^n\).\\
 		      \(\displaystyle \forall g \in\PGF(\mathbb{N}^n) \quad \S{P_1}(g) = \S{P_2}(g) \)
-		\item By linearity: for all pointmass distributions over \(\mathbb{N}^n\)\\
+		\item By linearity: for all point-mass distributions over \(\mathbb{N}^n\)\\
 		      \(\displaystyle \forall (y_1,y_2,\ldots y_n) \in \mathbb{N}^n \quad \S{P_1}(X_1^{y_1}X_2^{y_2}\cdots X_n^{y_n}) = \S{P_2}(X_1^{y_1}X_2^{y_2}\cdots X_n^{y_n}) \)
-		\item Ebbed all n-dim pointmass PGFs into a 2n-dim PGF \(\delta(\mathbf{X};\mathbf{U})\)\\
+		\item Ebbed all n-dim point-mass PGFs into a 2n-dim PGF \(\delta(\mathbf{X};\mathbf{U})\)\\
 		      \(\displaystyle \S{P_1}(\delta) = \S{P_2}(\delta) \)
 		      where
 		      \(
@@ -578,7 +578,7 @@ if(s > 0){
 
 \begin{frame}[fragile, allowframebreaks]{Limitations and future works}
 	\begin{block}{conditional equivalence checking}
-		From \(\S{P_1} = \S(P_2)\) to \(\S{P_1|\phi} = \S{P_2|\phi}\)
+		From \(\S{P_1} = \S{P_2}\) to \(\S{P_1|\phi} = \S{P_2|\phi}\)
 		\begin{verbatim}
 -- prog: a program that handles input x such that P(x) is true
 -- cond: the P(x) predicate
@@ -603,7 +603,7 @@ restrict cond prog input = if cond input
 		A natural generalization would be:
 		\begin{align*}
 			\E(e^{sX + tY}) & \to e^{cs} \E(e^{0X + tY}) = \E(e^{sc + tY}) \\
-			\E(e^{sX + tY}) & *\to \E(e^{sX + (t+s)Y}) = \E(e^{s(X+Y) tY}) \\
+			\E(e^{sX + tY}) & \to \E(e^{sX + (t+s)Y}) = \E(e^{s(X+Y) tY}) \\
 		\end{align*}
 
 		Obstacles:
@@ -664,5 +664,4 @@ OnInputSymbol(() => {
 	\end{center}
 \end{frame}
 
-\end{document}
 \end{document}
