@@ -1,0 +1,92 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{xcolor}
+\usepackage{multicol}
+
+\DeclareMathOperator*{\PGF}{PGF}
+\DeclareMathOperator*{\SOP}{SOP}
+\DeclareMathOperator*{\VARS}{Var}
+\DeclareMathOperator*{\PARMS}{Parm}
+\DeclareMathOperator*{\iid}{iid}
+\DeclareMathOperator*{\lfp}{fix}
+\renewcommand{\S}[1]{ \llbracket #1 \rrbracket }
+
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Geom}{\mathrm{geometric}}
+\newcommand{\Anno}[1]{\color{gray}{#1}}
+
+\begin{document}
+
+\section{Forward reasoning example}
+
+\begin{align*}
+	 & \Anno{Input \gets g = \E(s^n t^c)}                                                           \\
+	 & \operatorname{while} (n>0) \{  \Anno{g_1 = g - g[s/0] }                                      \\
+	 & \quad \{ n := n - 1 \} \Anno{g_2 = g_1 s^{-1}}                                               \\
+	 & \quad [1/2]                                                                                  \\
+	 & \quad \{ c := c + 1 \} \Anno{g_3 = g_1 t}                                                    \\
+	 & \quad \Anno{g_4 = \frac12 (g_2 + g_3)}                                                       \\
+	 & \} \Anno{Output \gets \lfp \left[ g \mapsto g[s/0] + \frac12(s^{-1} + t)(g-g[s/0]) \right] } \\
+\end{align*}
+Finally, we get to solve the LFP.
+\begin{enumerate}
+	\item Let \( g  = \sum_{i=0}^\infty s^i h_i \) where \(h_i = \frac{1}{i!}\frac{\partial^i g}{\partial s^i}[s/0]\)
+	\item \( f = f[s/0] + \frac12(s^{-1} + t)(f-f[s/0]) \) implies \(f = f[s/0]\), every term in the LFP is \(s\)-free.
+	\item The term \(s^0 h_0\) becomes \(h_0\) eventually.
+	\item Consider the term \(s^i h_i\) where \(i>0\).
+	      \begin{enumerate}
+		      \item It gets multiplied by \(t/2\) or \(s^{-1}/2\), until it becomes a \(s\)-free term.
+		      \item Suppose that it becomes a \(s\)-free term after \(i+j\) iterations:
+		            The last factor must be \(s^{-1}/2\), and \(j\) factors among the other \(i+j-1\) factors are \(t/2\).
+		            \[
+			            s^i h_i \rightsquigarrow h_i 2^{-i} \binom{i+j-1}{j} 2^{-j}t^j = \binom{-i}{j}2^{-j} t^j
+		            \]
+		      \item Sum the results over \(j=0,1,2\ldots\)
+		            \[
+			            \frac{h_i}{2^i} \sum_{j=0}^\infty \binom{-i}{j} 2^{-j}t^j
+			            = \frac{h_i}{2^i} {(1-t/2)}^{-i}
+		            \]
+	      \end{enumerate}
+	\item Thus, the least fixed-point is
+	      \[
+		      h_0 + \sum_{i=1}^\infty \frac{h_i}{2^i} {(1-t/2)}^{-i}
+		      \sum_{i=0}^\infty \frac{h_i}{2^i} {(1-t/2)}^{-i}
+		      = g[s/{(1-t/2)}^{-1}]
+	      \]
+\end{enumerate}
+
+\begin{align*}
+	 & \Anno{Input \gets g = \E(s^n t^c)}                                                 \\
+	 & \operatorname{if} (n>0) \{ \Anno{g_1 = g-g[s/0]}                                   \\
+	 & \quad c := c + \iid(\Geom(1/2),n) ; \Anno{g_2 = g_1[s/s {(1-t/2)}^{-1}]}           \\
+	 & \quad n := 0 \Anno{g_3 = g_2[s/1] = g_1[s/{(1-t/2)}^{-1}]}                         \\
+	 & \} \Anno{Output \gets g[s/0] + (g-g[s/0])[s/{(1-t/2)}^{-1}] = g[s/{(1-t/2)}^{-1}]} \\
+\end{align*}
+
+\section{Fixed point induction example}
+
+Previously, we have proven that the following loop-free program 
+\begin{verbatim}
+if (n > 0) {
+    c := c + iid(geometric(1/2),n);
+    n := 0
+}
+\end{verbatim}
+is the least fixed point of the following loop
+\begin{verbatim}
+while (n > 0) {
+    {n := n-1}[1/2]{c := c+1}
+}
+\end{verbatim}
+By fixed point induction, the loop is semantically equivalent to
+\begin{verbatim}
+if (n > 0) {
+    {n := n-1}[1/2]{c := c+1}
+    if (n > 0) {
+        c := c + iid(geometric(1/2),n);
+        n := 0
+    }
+}
+\end{verbatim}
+
+\end{document}
