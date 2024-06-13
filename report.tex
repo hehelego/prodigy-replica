@@ -417,7 +417,7 @@ The PGF of a non-negative discrete random variable \(X\) is defined as
 	g_X(t) = \E(t^X) = \sum_{n=0}^\infty \Pr(X=n) t^n
 \]
 It can be regarded as the Z-transform of the probability mass function.
-PGFs provide a concise representation of probability distributions, greatly simplifying probabilistic reasoning. Table~\ref{tab:pgfs}
+PGFs provide a concise representation of probability distributions, greatly simplifying probabilistic reasoning. Table~\ref{tab:pgfs} summarizes PGFs of some frequently used distributions.
 
 \begin{table}[htbp]
 	\centering
@@ -456,8 +456,8 @@ PGFs provide a concise representation of probability distributions, greatly simp
 \end{theorem}
 \begin{theorem}[PGF of random stopping sum]
 	Let \(X_1, X_2, \ldots\) be a sequence of iid variables with PGF \(g_X(\cdot)\),
-	and \(N\) be an independent random variable with PGF \(g_N(\cdot)\).
-	Then, \(S=\sum_{i=1}^{N} X_i\) has PGF \(g_S = g_N\circ g_X\).
+	and \(N\) be a random variable with PGF \(g_N(\cdot)\).
+	If \(N\) and \(X_1,X_2,\ldots\) are independent, then the PGF of \(S=\sum_{i=1}^{N} X_i\) is \(g_S = g_N\circ g_X\).
 	\begin{align*}
 		\E_{N,\mathbf{X}}\left\{ t^{\sum_{i=1}^N X_i} \right\}
 		 & = \E_N\left\{ \E_{\mathbf{X}|N}\left[ t^{\sum_{i=1}^N X_i} \mid N \right] \right\}
@@ -775,47 +775,38 @@ Though computations involving arbitrary elementary functions do not have simple 
 
 \section{Deciding Equivalence of loop-free ReDiP programs}
 
-As we have seen in the previous section, fixed point induction allows transforming loopy ReDiP programs into semantically equivalent loop-free programs when correct loop invariants are supplied,
-so the problem of deciding ReDiP program equivalence can be reduced to deciding the equivalence of loop-free ReDiP programs.
-Now consider the problem of checking whether two ReDiP programs \(P,Q\) are equivalent. Suppose that the program state of both programs is a random vector \((X_1,X_2,\ldots X_k)\).
+As we have seen in the previous section, fixed point induction allows transforming loopy ReDiP programs into semantically equivalent loop-free programs when correct loop invariants are supplied.
+Thus, ReDiP equivalence problem can be reduced to loop-free ReDiP equivalence problem.\par
+Now consider the problem of checking whether two loop-free ReDiP programs \(P,Q\) are equivalent.
+Suppose that the program state of both programs is a random vector \((X_1,X_2,\ldots X_k)\).
 \begin{enumerate}
-	\item By definition, we have to check if:
-	      \[
-		      \forall \sigma_0 . \forall \sigma . TD(P,\sigma_0; \sigma)\equiv TD(Q,\sigma_0;\sigma)
-	      \]
-	\item By encode the initial and terminal program states with PGFs,
-	      the distribution equivalence problem is reduced to a PGF transformer equivalence problem:
-	      \[
-		      \forall g\in \PGF(X_1,\ldots X_k) . \S{P}(g) = \S{Q}(g)
-	      \]
-	\item By linearity of PGF transformers of ReDiP programs, we only need to check if \(\S{P}(\cdot)\) and \(\S{Q}(\cdot)\) are consistent on one basis of \(\PGF(X_1,\ldots X_k)\).
-	      One such basis is the set of all point-mass distributions.
-	      Every distribution \(p(\mathbf{X})\) over \(\mathbb{N}^k\) can be expressed as a linear combination of point-mass distributions:
-	      \[
-		      p(\mathbf{x}) = \sum_{\mathbf{y}\in\mathbb{N}^k} p(\mathbf{y}) \delta_{\mathbf{y}}(\mathbf{x})
-		      \quad
-		      \delta_{\mathbf{y}}(\mathbf{x}) = \begin{cases}
-			      1 & \mathbf{x} = \mathbf{y}    \\
-			      0 & \mathbf{x} \neq \mathbf{y} \\
-		      \end{cases}
-	      \]
-	      Thus, the problem is reduced to check if:
-	      \[
-		      \forall \mathbf{x} \in \mathbb{N}^k \quad \S{P}(\mathbf{t}^{\mathbf{x}}) = \S{Q}(\mathbf{t}^{\mathbf{x}})
-	      \]
-	      where \(\mathbf{t}^{\mathbf{x}} = \sum_{\mathbf{y}\in\mathbb{N}^k} \delta_{\mathbf{x}}(\mathbf{y}) \mathbf{t}^{\mathbf{y}}\) is the PGF of the point-mass distribution \(\delta_{\mathbf{x}}(\cdot)\).
-	\item Note that there are infinitely many point-mass PGFs (monomials), so an algorithm cannot perform the equivalence check.
-	      To address this, we embed all \(k\)-dimensional point-mass PGFs into a \(2k\)-dim PGF by introducing \(k\) extra meta-variables.
+	\item By definition~\ref{def:pgcl-equiv}, \(P\) and \(Q\) are equivalent if \eqref{eq:prop1} is true.
+	      \begin{equation}
+		      \forall \sigma_0 . \forall \sigma . TD(P,\sigma_0; \sigma)\equiv TD(Q,\sigma_0;\sigma)\label{eq:prop1}
+	      \end{equation}
+	\item In PGF transformer semantics, \eqref{eq:prop1} is equivalent to \eqref{eq:prop2}.
+	      \begin{equation}
+		      \forall g\in \PGF(\mathbb{N}^k) . \S{P}(g) = \S{Q}(g)\label{eq:prop2}
+	      \end{equation}
+	\item \(\S{P}\) and \(\S{Q}\) are linear, so \(\S{P}\equiv\S{Q}\) if and only if \(\forall h\in \mathcal{B} . \S{P}(h)=\S{Q}(h)\), where \(\mathcal{B}\) is a basis of \(\PGF(\mathbb{N}^k)\).
+	      The set of all monomials \(\{\mathbf{t}^\mathbf{x} \mid \mathbf{x} \in \mathbb{N}^k\}\) is a basis since every PGF, as a formal power series, can be expressed as a linear combination of monomials.
+	      Thus, \eqref{eq:prop2} is equivalent to \eqref{eq:prop3}
+	      \begin{equation}
+		      \forall \mathbf{x} \in \mathbb{N}^k . \S{P}(\mathbf{t}^{\mathbf{x}}) = \S{Q}(\mathbf{t}^{\mathbf{x}}) \label{eq:prop3}
+	      \end{equation}
+	      Note that \(\mathbf{t}^{\mathbf{x}} = \sum_{\mathbf{y}\in\mathbb{N}^k} \delta_{\mathbf{x}}(\mathbf{y}) \mathbf{t}^{\mathbf{y}}\) is the PGF of the point-mass distribution \(\delta_{\mathbf{x}}(\mathbf{y})=[\mathbf{x}=\mathbf{y}]\).
+	\item The set of monomials is infinite, so an algorithm cannot verify \eqref{eq:prop3} exhaustively.
+	      To address this, embed all \(k\)-dim point-mass PGFs into a \(2k\)-dim PGF by introducing \(k\) extra meta-variables.
 	      \[
 		      \Delta(\mathbf{t};\mathbf{u})
-		      = \sum_{y_1,y_2,\ldots y_n} (u_1 t_1)^{y_1}(u_2 t_2)^{y_2}\cdots (u_n t_n)^{y_n}
-		      = \prod_{i=1}^n \left( \sum_{j=0}^\infty (t_i u_i)^j \right)
-		      = \prod_{i=1}^n (1-t_i u_i)^{-1}
+		      = \sum_{x_1,x_2,\ldots x_k} (u_1 t_1)^{x_1}(u_2 t_2)^{x_2}\cdots (u_k t_k)^{x_k}
+		      = \prod_{i=1}^k \left( \sum_{j=0}^\infty (t_i u_i)^j \right)
+		      = \prod_{i=1}^k (1-t_i u_i)^{-1}
 	      \]
 	      \(\Delta\) is a so-called second-order PGF (SOP) since it can be regarded as a formal power series with meta-variable \(\mathbf{u}\),
 	      where the coefficient of \(\mathbf{u}^{\mathbf{x}}\) is the PGF of \(\delta_{\mathbf{x}}(\cdot)\).
 	      \begin{align*}
-		      \forall \mathbf{x} \in \mathbb{N}^k \quad \S{P}(\mathbf{t}^{\mathbf{x}}) = \S{Q}(\mathbf{t}^{\mathbf{x}})
+		      \forall \mathbf{x} \in \mathbb{N}^k . \S{P}(\mathbf{t}^{\mathbf{x}}) = \S{Q}(\mathbf{t}^{\mathbf{x}})
 		       & \iff
 		      \sum_{\mathbf{x}\in\mathbb{N}^k} \S{P}(\mathbf{t}^{\mathbf{x}}) \mathbf{u}^\mathbf{x}
 		      = \sum_{\mathbf{x}\in\mathbb{N}^k} \S{Q}(\mathbf{t}^{\mathbf{x}}) \mathbf{u}^\mathbf{x}              \\
@@ -825,10 +816,20 @@ Now consider the problem of checking whether two ReDiP programs \(P,Q\) are equi
 		       & \iff \S{P}(\Delta(\mathbf{t};\mathbf{u}))
 		      = \S{Q}(\Delta(\mathbf{t};\mathbf{u}))
 	      \end{align*}
-	      Therefore, the equivalence checking problem is ultimately reduced to check if \(\S{P}\) and \(\S{Q}\) agree on one PGF, \(\Delta\), which has a rational-closed form.
+	      Therefore, \eqref{eq:prop3} is equivalent to \eqref{eq:prop4}.
+	      \begin{equation}
+		      \S{P}(\Delta) = \S{Q}(\Delta)
+			  \quad
+			  \text{where}
+			  \quad
+		      \Delta = \prod_{i=1}^k (1-t_i u_i)^{-1}
+		      \label{eq:prop4}
+	      \end{equation}
 \end{enumerate}
 
-In summary, to check if two loop-free ReDiP programs \(P,Q\) are equivalent, we first compute \(\Delta\) and then compare \(\S{P}(\Delta)\) and \(\S{Q}(\Delta)\).
+The equivalence checking problem is ultimately reduced to verify if \eqref{eq:prop4} holds.
+\(\S{P}(\Delta),\S{Q}(\Delta)\) can be computed in finite time since \(P,Q\) are loop-free and \(\Delta\) is rational.
+Therefore, the loop-free ReDiP equivalence problem is decidable.
 
 \section{Evaluation}
 
@@ -839,12 +840,14 @@ The artifacts are hosted on a Github repository \href{https://github.com/heheleg
 
 We implemented the aforementioned algorithm in about 500 lines of Python code. All algebraic computations are carried out by \texttt{sympy}\cite{sympy}, a famous long-established computer algebra system written in Python.\par
 To test the correctness and measure the efficiency of our tool, we measured the running time of our tool on 15 pairs of programs available in the PRODIGY repository. The PRODIGY repository also contains benchmarks for symbolic Bayesian inference, which is unrelated to equivalence checking. To get insight into the scalability of our tool, we also made a benchmark of 10 programs with finite loops of \(1,2,3,\ldots 10\) iterations.
-\begin{verbatim}
+\begin{tcolorbox}
+	\begin{verbatim}
 nat x; x := geometric(1/2);
 loop(n){ // number of iterations
  if(x > 15){ {x := x+1}[1/2]{x := x-1} }{}
 }
 \end{verbatim}
+\end{tcolorbox}
 The experiments were conducted on a laptop equipped with an 8-core x86-64 CPU (model AMD RYZEN 4800U) and 16GB of DDR4 memory.
 
 \subsection{Results}
