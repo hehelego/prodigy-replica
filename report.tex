@@ -54,7 +54,7 @@
 	While probabilistic programming is widely applied in security-critical applications, e.g., online banking and cyber-physical systems, there is a lack of effort in ensuring their correctness.\par
 	Recently, researchers proposed generating function transformer semantics to address the insufficiency of sensitivity and expressiveness of existing techniques.
 	This novel denotational semantics allows tracking the entire distribution of program states, enabling precise reasoning about the behavior of probabilistic programs.\par
-	In this course project, we investigate the PGF transformer semantics of the ReDiP programming language, and develop a proof-of-concept tool for equivalence checking.
+	In this course project, we investigate the PGF transformer semantics of the ReDiP programming language and develop a proof-of-concept tool for equivalence checking.
 \end{abstract}
 
 \section{Introduction}
@@ -64,7 +64,7 @@
 % The rise of probabilistic programming
 Randomness is pervasive, arising naturally and inevitably in many contexts.
 For example, applications interacting with the physical world must handle noisy inputs, molecular dynamics involve stochastic motions, and random tie-breaking is crucial for efficient approximate algorithms.
-In recent years, there has been a surge in probabilistic programming, which unifies statistical modelling with general-purpose programming, making it much easier to program with randomness.
+In recent years, there has been a surge in probabilistic programming, which unifies statistical modeling with general-purpose programming, making it much easier to program with randomness.
 \par
 % The need to verify stochastic programs
 Probabilistic programming is increasingly employed in safety- and security-critical applications, such as healthcare, financial services, and autonomous control systems,
@@ -85,10 +85,10 @@ Given that the equivalence checking problem for pGCL is undecidable, we restrict
 The two main restrictions we introduce are (1) arithmetic expressions must be linear, and (2) comparisons must be rectangular.
 The resulting fragment is called rectangular discrete probabilistic programming language (ReDiP), a constrained yet expressive language.
 It turns out that equivalence checking is decidable for ReDiP.\par
-To precisely reason about probabilistic programs, a formal semantics have to be devised.
-Inspired by work Kozen\cite{kozen1979semantics}, Chen et al.\cite{cav-pgf} developed a denotational semantics based on probability generating functions (PGFs) to capture the evolution of the distribution of program states as the program executes.
+To precisely reason about probabilistic programs, formal semantics have to be devised.
+Inspired by Kozen\cite{kozen1979semantics}, Chen et al.\cite{cav-pgf} developed a denotational semantics based on probability generating functions (PGFs) to capture the evolution of the distribution of program states as the program executes.
 We investigate the PGF transformer semantics, demonstrating the recursive calculation of the PGF transform of a ReDiP program.
-We also prove linearity and rational closed-form preservation of the PGF transformer semantics. Leveraging the linearity of PGF transformers of ReDiP programs, we re-implement the PRODIGY equivalence checker in Python leveraging \texttt{sympy}\cite{sympy}, a well-known computer algebra system.
+We also prove linearity and rational closed-form preservation of the PGF transformer semantics. Leveraging the linearity of PGF transformers of ReDiP programs, we re-implement the PRODIGY equivalence checker in Python.
 Finally, we use a set of tests from PRODIGY\cite{cav-extended} to benchmark the performance and scalability of our tool.\par
 
 The main work done in this project are:
@@ -130,13 +130,13 @@ The main work done in this project are:
 \section{Probabilistic Programming Languages}
 
 In this section, we introduce the syntax and semantics of the pGCL probabilistic programming language.
-We later impose several reasonable constraints on pGCL to obtain a restricted yet expression language, ReDiP.
+We later impose several reasonable constraints on pGCL to obtain a restricted yet expressive language, ReDiP.
 
 \subsection{The pGCL programming language}
 
-The probabilistic guarded command language\cite{pgcl} is a simple imperative programming language augmented with probabilistic choice and random sampling. The syntax~\ref{def:pgcl-syn} describes what constitute a valid pGCL program, and the semantics~\ref{def:pgcl-sem} defines the step-by-step execution of a pGCL program.
+The probabilistic guarded command language\cite{pgcl} is a simple imperative programming language augmented with probabilistic choice and random sampling. The syntax~\ref{def:pgcl-syn} describes what constitutes a valid pGCL program, and the semantics~\ref{def:pgcl-sem} defines the step-by-step execution of a pGCL program.
 \begin{definition}[pGCL syntax constructions]\label{def:pgcl-syn}
-	A pGCL programn is a terminal command,
+	A pGCL program is a terminal command,
 	an assignment command,
 	or a compositional command, where:
 	\begin{description}
@@ -234,7 +234,7 @@ The probabilistic guarded command language\cite{pgcl} is a simple imperative pro
 	\end{itemize}
 \end{definition}
 
-In the end of this section, we define the terminal configurations~\ref{def:pgcl-term} of pGCL programs and formalize the intuition of equivalent programs~\ref{def:pgcl-equiv}.
+We now define the terminal configurations~\ref{def:pgcl-term} of pGCL programs and formalize the intuition of equivalent programs~\ref{def:pgcl-equiv}.
 
 \begin{definition}[Terminal configurations]\label{def:pgcl-term}
 	Terminal configuration for program \(C\) on input \(\sigma_0\) is the set of all reachable halting configurations
@@ -247,14 +247,14 @@ In the end of this section, we define the terminal configurations~\ref{def:pgcl-
 		\langle \downarrow,\sigma,n,\theta,q \rangle
 		\right\}
 	\]
-	The terminal valuation is defined as all possible valuation in terminal configurations.
+	The terminal valuation is defined as all possible valuations in terminal configurations.
 	\[
 		TV(C,\sigma_0) =
 		\{\sigma \mid
 		\langle \downarrow,\sigma,n,\theta,q \rangle \in T(C,\sigma_0)
 		\}
 	\]
-	Similarly, define the terminal distribution as the probability distribution of terminal valuations.
+	Similarly, terminal distribution is defined as the probability distribution of terminal valuations.
 	\[
 		TD(C,\sigma_0;\sigma) = \sum_{\langle \downarrow,\sigma, n,\theta, q \rangle \in TV(C,\sigma_0)} q
 	\]
@@ -266,9 +266,9 @@ In the end of this section, we define the terminal configurations~\ref{def:pgcl-
 	\]
 \end{definition}
 
-\subsection{The Linear and Rectangula fragment of pGCL, ReDiP}
+\subsection{The Linear and Rectangular Fragment of pGCL, ReDiP}
 
-The pGCL probabilistic programming language can encode arbitrary probability Turing machine. Rice theorem suggests that there is no general sound and complete algorithm for analysing pGCL programs.
+The pGCL probabilistic programming language can encode arbitrary probabilistic Turing machine. Rice theorem suggests that there is no general sound and complete algorithm for analyzing pGCL programs.
 With that said, there are fragments of pGCL on which automated analysis are tractable. ReDiP is the fragment we will be working on.
 \begin{definition}[ReDiP programming language]
 	A ReDiP program \(C\) is a pGCL program that
@@ -286,7 +286,7 @@ With that said, there are fragments of pGCL on which automated analysis are trac
 		      where \(x \in \Sigma\) and \(n \in \mathbb{Z}\).
 	\end{itemize}
 \end{definition}
-To further enrich the fragment we also introduces several syntactic sugars:
+To further enrich the fragment, introduce the following syntactic sugars:
 \begin{itemize}
 	\item Linear combination expression command
 	      \[
@@ -296,8 +296,7 @@ To further enrich the fragment we also introduces several syntactic sugars:
 		      a_i \in \mathbb{Z},
 		      x_i \in \Sigma
 	      \]
-	      Linear combination expressions can be expressed
-	      as sequential combination of finite linear expressions.
+	      A linear combination expression command can be expressed as a sequential combination of finite linear expressions.
 	      For example \(x := y + 2z - 3\) is equivalent to
 	      \[
 		      \begin{aligned}
@@ -331,9 +330,9 @@ We first define the following notations that will be used frequently in this sec
 
 \subsection{Generating Functions}
 
-Generating functions\cite{gfbook} (GFs) are power tools originate from the field of enumerative combinatorics.
+Generating functions\cite{gfbook} (GFs) are power tools originating from the field of enumerative combinatorics.
 GFs are also known as Z-transforms in the context of signal processing.
-The GF of a sequnece is a formal power series whose coefficients are the elements of the sequence. For example the generating function of \(\{a_n\}\) with meta-variable \(x\) is
+The GF of a sequence is a formal power series whose coefficients are the elements of the sequence. For example the generating function of \(\{a_n\}\) with meta-variable \(x\) is
 \[
 	G(a_n; x) = \sum_{n=0}^\infty a_n x^n
 \]
@@ -369,10 +368,10 @@ Manipulations on sequence can be mapped to algebraic operations on GFs.
 	\]
 	\caption{Elementary generating functions and their corresponding sequences}
 \end{table}
-Certain formal power series have equivalent elementary closed-form representation, they can be regarded as finite representation of infinite sequences. Table~\ref{tab:gf-close} summarizes typical closed-form GFs.
-Working on closed-form of generation functions of sequences is easy, since elementary functions are closed under arithmetics, composition, and differentiation.
+Certain formal power series have equivalent elementary closed-form representations; they can be regarded as finite representations of infinite sequences. Table~\ref{tab:gf-close} summarizes typical closed-form GFs.
+Working on closed-form generation functions of sequences is easy since elementary functions are closed under arithmetics, composition, and differentiation.
 Furthermore, indefinite integration of elementary functions can be computed via the Risch algorithm if the result is elementary.\par
-The following example demonstrates the use of generating function in solving linear recurrence relations.
+The following example demonstrates the use of generating functions in solving linear recurrence relations.
 
 \begin{example}[Problem solving using GFs]
 	Find the closed-form formula of \(u_n\) where
@@ -418,7 +417,7 @@ The PGF of a non-negative discrete random variable \(X\) is defined as
 	g_X(t) = \E(t^X) = \sum_{n=0}^\infty \Pr(X=n) t^n
 \]
 It can be regarded as the Z-transform of the probability mass function.
-PGFs provides concise representation of probability distributions, greatly simplifying probabilistic reasoning. Table~\ref{tab:pgfs}
+PGFs provide a concise representation of probability distributions, greatly simplifying probabilistic reasoning. Table~\ref{tab:pgfs}
 
 \begin{table}[htbp]
 	\centering
@@ -457,7 +456,7 @@ PGFs provides concise representation of probability distributions, greatly simpl
 \end{theorem}
 \begin{theorem}[PGF of random stopping sum]
 	Let \(X_1, X_2, \ldots\) be a sequence of iid variables with PGF \(g_X(\cdot)\),
-	and \(N\) be a independent random variable with PGF \(g_N(\cdot)\).
+	and \(N\) be an independent random variable with PGF \(g_N(\cdot)\).
 	Then, \(S=\sum_{i=1}^{N} X_i\) has PGF \(g_S = g_N\circ g_X\).
 	\begin{align*}
 		\E_{N,\mathbf{X}}\left\{ t^{\sum_{i=1}^N X_i} \right\}
@@ -483,9 +482,9 @@ In general, for a \(k\)-dimensional random vector \(\mathbf{X}=(X_1,X_2,\ldots X
 
 \section{PGF transformer semantics}
 
-The small-step operational semantics provides a micro-level view program execution, focusing on the state evolution over one particular execution path. While this approach is suitable for deriving fine-grained properties of a program, it lacks the capability to capture the overall behavior of the program.
+Small-step operational semantics provide a micro-level view of program execution, focusing on the state evolution over one particular execution path. While this approach is suitable for deriving fine-grained program properties, it lacks the capability to capture the program's overall behavior.
 Denotational semantics, on the other hand, offers a holistic view by representing collections program states with mathematical objects and mapping program execution to transformations of these objects.
-The PGF transformer semantics represents the distribution over all reachable program states as a PGF. The semantics of a program is then modelled as a transformer that maps one PGF to another PGF.
+The PGF transformer semantics represent the distribution over all reachable program states as a PGF. The semantics of a program is then modeled as a transformer that maps one PGF to another PGF.
 
 \begin{example}[PGF of distribution over program states]
 	Consider the following ReDiP program
@@ -520,7 +519,7 @@ The PGF transformer semantics of ReDiP programs is defined as follows:
 We now explain how to compute PGF transformers of ReDiP programs.
 For the sake of simplicity, we assume that the program contains only two variables \(x\) and \(y\) and the PGF of program state distribution is \(g=\E(s^X t^Y)=\sum_{x,y} p(x,y) s^x t^y\).
 \begin{theorem}[PGF transformers of non-conditional pGCL commands]
-	The PGF transformers for skip command, linear arithmetic commands, and random sampling commands:
+	The PGF transformers for skip commands, linear arithmetic commands, and random sampling commands:
 	\begin{itemize}
 		\item \(\S{\operatorname{skip}} = id\) since a skip command does not change the program states.
 		\item \(\S{x := 0} = g\mapsto g[s/1]\) since \( g[s/1] = \E(1^X t^Y) = \E(t^Y) = \E(s^0 t^Y) \)
@@ -546,7 +545,7 @@ For the sake of simplicity, we assume that the program contains only two variabl
 			      = \E_{Z_1,Z_2\ldots\stackrel{\iid}{\sim}\mu}(s^{X+\sum_{i=1}^Y} t^Y)
 		      \end{align*}
 	\end{itemize}
-	The PGF transformers of several other ReDiP language constructions which does not involves conditional branching can also be computed:
+	The PGF transformers of several other ReDiP language constructions which does not involve conditional branching can also be computed:
 	\begin{itemize}
 		\item \(\S{C_1;C_2} = \S{C_2}\circ \S{C_1}\)
 		\item \(\S{\{C_1\}[p]\{C_2\}} = g\mapsto p \S{C_1}(g) + (1-p)\S{C_2}(g)\)
@@ -594,7 +593,7 @@ Transformers of branching and looping commands can be computed by leveraging fil
 
 \subsection{PGF transformer of loops}
 
-Unbounded loops are characterized as least fixed point in denotational semantics.
+Unbounded loops are characterized as least fixed points in denotational semantics.
 To define least fixed points, we need a partial order \((\sqsubseteq, \PGF)\).
 \begin{definition}[Partial order of PGFs]
 	Let \(f\) and \(g\) be the PGFs of two \(k\)-dimensional discrete random vectors, where
@@ -611,7 +610,7 @@ Now that the PGF space is equipped with a partial order, we characterize loops w
 	\(\S{\operatorname{while}(\varphi)\{C\}} = \mu\ Q . \operatorname{if}(\varphi)\{C;Q\}\)\\
 	That is, the least fixed point of the function \(Q \mapsto \operatorname{if}(\varphi)\{C;Q\}\).
 \end{theorem}
-Intuitively, a while loop is equivalent to a infinitely nested branching tree, which ultimately converges if the loop always terminate.
+Intuitively, a while loop is equivalent to an infinitely nested branching tree, which ultimately converges if the loop always terminates.
 \begin{tcolorbox} \begin{verbatim}
 while(cond){
     body;
@@ -637,8 +636,8 @@ least_fix_point((Q) => {
 \end{tcolorbox}
 
 The least fixed point characterization of while loops completes the last piece of the PGF transformer semantics of ReDiP.
-However a general algorithm that computes least fixed does not exists.
-In stead of finding the fixed point, we ask the fixed point to be given as part of the input.
+However, a general algorithm that computes the least fixed does not exist.
+Instead of finding the fixed point, we require that the fixed point be given as part of the input.
 The only work left to be done is to check whether the given program \(Q\) is indeed the fixed point of \(Q\mapsto \operatorname{if}(\varphi)\{C;Q\}\).
 \begin{definition}[Probabilistic termination]
 	A pGCL program \(P\) is said to be universally almost-surely terminating (UAST),
@@ -658,21 +657,21 @@ The only work left to be done is to check whether the given program \(Q\) is ind
 		\iff
 		\S{\operatorname{while}(\varphi)\{C\}} = \S{Q}
 	\]
-	That is: the fixed point for a loop is the loop invariant.
+	That is the fixed point for a loop is the loop invariant.
 \end{theorem}
 To check whether \(Q\) is the least fixed point of \(\operatorname{while}(\varphi)\{C\}\):
 \begin{enumerate}
 	\item Check if the loop is UAST with an external tool.
 	\item Check if \(\S{\operatorname{if}(\varphi)\{C;Q\}\operatorname{else}\{\operatorname{skip}\}} = \S{Q}\).
 	      The two programs are both loop-free ReDiP.
-	      We will discuss how to determine equivalence of loop-free ReDiP programs later.
+	      We will discuss how to determine the equivalence of loop-free ReDiP programs later.
 \end{enumerate}
 Theorem~\ref{thm:lfp-ind} is a special case of Park's induction. Detailed proof can be found in the PRODIGY paper\cite{cav-extended}.
 
 \subsection{Properties of ReDiP PGF transformers}
 
-In this section, we prove two important properties of ReDiP PGF transformers, which enables efficient equivalence checking algorithms.
-The general approach for proving properties of ReDiP PGF transformers is structure induction over the program.
+In this section, we prove two important properties of ReDiP PGF transformers, which enable efficient equivalence-checking algorithms.
+The general approach for proving the properties of ReDiP PGF transformers is structure induction over the program.
 
 \begin{theorem}[linearity]
 	For every ReDiP program \(P\), and two PGFs \(f,g\).
@@ -681,7 +680,7 @@ The general approach for proving properties of ReDiP PGF transformers is structu
 	\]
 \end{theorem}
 \begin{proof}
-	Without lose of generality, we consider only two-dimensional PGFs.
+	Without loss of generality, we consider only two-dimensional PGFs.
 	For two PGFs \(f,g\) and two non-negative real numbers \(a,b\) where \(a+b=1\).
 	\begin{enumerate}
 		\item Base case: PGF transformers of atomic commands are linear.
@@ -728,8 +727,8 @@ The general approach for proving properties of ReDiP PGF transformers is structu
 				                    & = a\left( \S{P}(f_{\varphi}) + \S{Q}(f_{\lnot\varphi}) \right) + b\left( \S{P}(g_{\varphi}) + \S{Q}(g_{\lnot\varphi}) \right)
 			            \end{align*}
 			      \item \(\operatorname{while}(\varphi)\{P\}\) transformer \(\mu\ Q . \operatorname{if}(\varphi)\{P;Q\}\)\\
-			            Intuitively, a while loop is a infinitely nested branching tree.
-			            Considering PGF transformers of if-branchings are linear, the PGF transformer of nested branching tree should also be linear.
+			            Intuitively, a while loop is an infinitely nested branching tree.
+			            Considering PGF transformers of if-branchings are linear, the PGF transformer of a nested branching tree should also be linear.
 			            Rigorous proof of this need to properties of \(\omega\)-complete partial order. The proof is omitted and can be found in\cite{cav-extended}.
 		      \end{enumerate}
 	\end{enumerate}
@@ -754,30 +753,30 @@ The general approach for proving properties of ReDiP PGF transformers is structu
 	there exists two finite polynomials \(g',h'\) such that \(\S{P}(g/h) = g'/h'\).
 \end{theorem}
 \begin{proof}
-	Without lose of generality, we consider only two-dimensional PGFs.
+	Without loss of generality, we consider only two-dimensional PGFs.
 	For two PGFs \(f,g\) and two non-negative real numbers \(a,b\) where \(a+b=1\).
 	\begin{enumerate}
 		\item Base case: PGF transformers of atomic commands preserve rational-closed form.\\
 		      This is because rational-closed forms are closed under compositor and linear combination.
 		      Note that substituting a variable with a constant/monomial/rational function is essentially composing the input PGF with a rational function.
-		      The detailed case-analysis is omitted.
+		      The detailed case analysis is omitted.
 		\item Induction case: PGF transformers of compositional commands preserve rational-closed form.\\
 		      This is because rational-closed form preserving mappings is closed under composition and linear combination.
-		      The detailed case-analysis is omitted.
+		      The detailed case analysis is omitted.
 	\end{enumerate}
 \end{proof}
 
 Rational closed-forms are amenable to computer algebra systems, e.g., \texttt{sympy} and \texttt{GiNaC}.
-The rational closed-form preservation property allow us to efficiently compute \(\S{P}(g/h)\) for a loop-free program \(P\).
+The rational closed-form preservation property allows \(\S{P}(g/h)\) for a loop-free program \(P\) to be efficiently computed.
 Furthermore, rational functions have simple normal forms (sort the monomials in lexicographical order), so deciding rational functions equivalence is very easy.\par
 Finally, we note that the closed-form preservation property is of more theoretical interest than practical significance.
 Our tool has support for sampling from a PGF specified by a elementary function, so our tool is actually working on elementary closed-form rather than rational closed-form.
-Though computations involving arbitrary elementary functions do not have simple and clear complexity bound, computer algebra systems are often able to compute the results in reasonable time (for example, 10 seconds).
+Though computations involving arbitrary elementary functions do not have simple and clear complexity bound, computer algebra systems are often able to compute the results in a reasonable time (for example, 10 seconds).
 
 \section{Deciding Equivalence of loop-free ReDiP programs}
 
-As we have seen in previous section, fixed point induction allow transforming a loopy ReDiP programs into a semantically equivalent loop-free programs when a correct loop invariant is supplied,
-so the problem of deciding equivalence of ReDiP programs can be reduced to deciding equivalence of loop-free ReDiP programs.
+As we have seen in the previous section, fixed point induction allows transforming loopy ReDiP programs into semantically equivalent loop-free programs when correct loop invariants are supplied,
+so the problem of deciding ReDiP program equivalence can be reduced to deciding the equivalence of loop-free ReDiP programs.
 Now consider the problem of checking whether two ReDiP programs \(P,Q\) are equivalent. Suppose that the program state of both programs is a random vector \((X_1,X_2,\ldots X_k)\).
 \begin{enumerate}
 	\item By definition, we have to check if:
@@ -789,9 +788,9 @@ Now consider the problem of checking whether two ReDiP programs \(P,Q\) are equi
 	      \[
 		      \forall g\in \PGF(X_1,\ldots X_k) . \S{P}(g) = \S{Q}(g)
 	      \]
-	\item By linearity of PGF transformers of ReDiP programs, we only need to check if \(\S{P}(\cdot)\) and \(\S{Q}(\cdot)\) are consistent on a basis of \(\PGF(X_1,\ldots X_k)\).
-	      One of such basis is the set of all point-mass distribution.
-	      Every distributions \(p(\mathbf{X})\) over \(\mathbb{N}^k\) can be expressed as a linear combination of point-mass distributions:
+	\item By linearity of PGF transformers of ReDiP programs, we only need to check if \(\S{P}(\cdot)\) and \(\S{Q}(\cdot)\) are consistent on one basis of \(\PGF(X_1,\ldots X_k)\).
+	      One such basis is the set of all point-mass distributions.
+	      Every distribution \(p(\mathbf{X})\) over \(\mathbb{N}^k\) can be expressed as a linear combination of point-mass distributions:
 	      \[
 		      p(\mathbf{x}) = \sum_{\mathbf{y}\in\mathbb{N}^k} p(\mathbf{y}) \delta_{\mathbf{y}}(\mathbf{x})
 		      \quad
@@ -805,7 +804,7 @@ Now consider the problem of checking whether two ReDiP programs \(P,Q\) are equi
 		      \forall \mathbf{x} \in \mathbb{N}^k \quad \S{P}(\mathbf{t}^{\mathbf{x}}) = \S{Q}(\mathbf{t}^{\mathbf{x}})
 	      \]
 	      where \(\mathbf{t}^{\mathbf{x}} = \sum_{\mathbf{y}\in\mathbb{N}^k} \delta_{\mathbf{x}}(\mathbf{y}) \mathbf{t}^{\mathbf{y}}\) is the PGF of the point-mass distribution \(\delta_{\mathbf{x}}(\cdot)\).
-	\item Note that there are infinitely many point-mass PGFs (monomials), so the equivalence check cannot be performed by a computer algebra systems.
+	\item Note that there are infinitely many point-mass PGFs (monomials), so an algorithm cannot perform the equivalence check.
 	      To address this, we embed all \(k\)-dimensional point-mass PGFs into a \(2k\)-dim PGF by introducing \(k\) extra meta-variables.
 	      \[
 		      \Delta(\mathbf{t};\mathbf{u})
@@ -838,20 +837,20 @@ The artifacts are hosted on a Github repository \href{https://github.com/heheleg
 
 \subsection{Experiment setup}
 
-We implemented the aforementioned equivalence checking algorithm in about 500 lines of Python code. All algebraic computations are carried out by \texttt{sympy}\cite{sympy}, a famous long-establish computer algebra system written in Python.\par
-To test the correctness and measure the efficiency of our tool, we measured the running time of our tool on 15 pairs of programs available in the PRODIGY repository. The PRODIGY repository also contains benchmark for symbolic Bayesian inference, which is unrelated to equivalence checking. To get insight into the scalability of our tool, we also made a benchmark of 10 programs with finite loop of \(1,2,3,\ldots 10\) iterations.
+We implemented the aforementioned algorithm in about 500 lines of Python code. All algebraic computations are carried out by \texttt{sympy}\cite{sympy}, a famous long-established computer algebra system written in Python.\par
+To test the correctness and measure the efficiency of our tool, we measured the running time of our tool on 15 pairs of programs available in the PRODIGY repository. The PRODIGY repository also contains benchmarks for symbolic Bayesian inference, which is unrelated to equivalence checking. To get insight into the scalability of our tool, we also made a benchmark of 10 programs with finite loops of \(1,2,3,\ldots 10\) iterations.
 \begin{verbatim}
 nat x; x := geometric(1/2);
 loop(n){ // number of iterations
  if(x > 15){ {x := x+1}[1/2]{x := x-1} }{}
 }
 \end{verbatim}
-The experiments were conducted on a laptop equipped with a 8-core x86-64 CPU (model AMD RYZEN 4800U) and 16GB of DDR4 memory.
+The experiments were conducted on a laptop equipped with an 8-core x86-64 CPU (model AMD RYZEN 4800U) and 16GB of DDR4 memory.
 
 \subsection{Results}
 
 The test results are summarized in table~\ref{tab:test1} and table~\ref{tab:test2}.
-The results show that our tool can correctly and efficiently verify equivalence of a various practical ReDiP programs.
+The results show that our tool can correctly and efficiently verify the equivalence for various practical ReDiP programs.
 However, the scalability is unsatisfying figure~\ref{fig:test2} suggests that the verification time may grow exponentially as the program size grows.
 
 
@@ -915,15 +914,15 @@ Let \( g  = \sum_{i=0}^\infty s^i h_i \), where \(h_i = \frac{1}{i!}\frac{\parti
 	 & \quad \Anno{g_4 = \frac12 (g_2 + g_3)}                                                      \\
 	 & \} \Anno{Output \gets \mu \left[ g \mapsto g[s/0] + \frac12(s^{-1} + t)(g-g[s/0]) \right] } \\
 \end{align*}
-In this case, the least fixed point do have a neat closed form:
+In this case, the least fixed point has a neat closed form:
 \begin{enumerate}
-	\item Suppose \(f\) is the LFP, then \( f = f[s/0] + \frac12(s^{-1} + t)(f-f[s/0]) \), which implies \(f = f[s/0]\). Therefore every term in the LFP is \(s\)-free.
+	\item Suppose \(f\) is the LFP, then \( f = f[s/0] + \frac12(s^{-1} + t)(f-f[s/0]) \), which implies \(f = f[s/0]\). Therefore, every term in the LFP is \(s\)-free.
 	\item The term \(s^0 h_0\) never changes. As for \(s^i h_i\), where \(i>0\):
 	      \begin{enumerate}
 		      \item It gets multiplied by \(t/2\) or \(s^{-1}/2\), until it becomes a \(s\)-free term.
 		      \item Suppose that it becomes a \(s\)-free term after \(i+j\) iterations:
 		            The last factor must be \(s^{-1}/2\), and \(j\) factors among the other \(i+j-1\) factors are \(t/2\).
-		            Therefore
+		            Therefore,
 		            \[
 			            s^i h_i \rightsquigarrow h_i 2^{-i} \binom{i+j-1}{j} 2^{-j}t^j = \binom{-i}{j}2^{-j} t^j
 		            \]
@@ -933,7 +932,7 @@ In this case, the least fixed point do have a neat closed form:
 			            = \frac{h_i}{2^i} {(1-t/2)}^{-i}
 		            \]
 	      \end{enumerate}
-	\item Thus, the least fixed-point is
+	\item Thus, the least fixed point is
 	      \[
 		      g\mapsto h_0 + \sum_{i=1}^\infty \frac{h_i}{2^i} {(1-t/2)}^{-i}
 		      = \sum_{i=0}^\infty \frac{h_i}{2^i} {(1-t/2)}^{-i}
@@ -957,7 +956,7 @@ we first apply fixed point induction to get the following program denoted by \(J
 	 & \operatorname{if} (n > 0) \{                               \\
 	 & \quad \Anno{\text{// loop body}}                           \\
 	 & \quad \{n := n-1\}[1/2]\{c := c+1\}                        \\
-	 & \quad \Anno{\text{// supplied loop invariant/fixed-point}} \\
+	 & \quad \Anno{\text{// supplied loop invariant/fixed point}} \\
 	 & \quad \operatorname{if} (n > 0) \{                         \\
 	 & \qquad c := c + \iid(\Geom(1/2),n);                        \\
 	 & \qquad n := 0                                              \\
@@ -988,7 +987,7 @@ and tested it on small-scale inputs.\par
 \subsection{Limitations and Future Work}
 
 \subsubsection{Conditional reasoning}
-Many probabilistic programming languages provides conditional feature for Bayesian inference.
+Many probabilistic programming languages provide Bayesian inference features.
 For example, the following program should compute \(\E(Z - X + Y\mid X^2+Y^2 < Z^2)\) where \(X,Y,Z\stackrel{\iid}{\sim}\mathcal{N}(0,1)\).
 
 \begin{align*}
@@ -1001,9 +1000,9 @@ For example, the following program should compute \(\E(Z - X + Y\mid X^2+Y^2 < Z
 How to augment the PGF transformer semantics to enable conditional reasoning is a future research direction of theoretical interest and practical value.
 
 \subsubsection{Incorporating Continuous Random Variables using MGF/CF}
-Many statistical models and stochastic processes involve real-valued random variable, and practical probabilistic programming languages often have support for continuous random variable.
-However, ReDiP only support integer-valued discrete random variable.
-It remains to be explore how to add support for common distributions like \(\mathcal{N}(\mu,\sigma^2)\) and \(\beta(\alpha,\beta)\).\par
+Many statistical models and stochastic processes involve real-valued random variables and practical probabilistic programming languages often support continuous random variables.
+However, ReDiP only supports integer-valued discrete random variables.
+It remains to explore how to add support for common distributions like \(\mathcal{N}(\mu,\sigma^2)\) and \(\beta(\alpha,\beta)\).\par
 
 One possible attempt is to use characteristic functions (CF) or moment generating functions (MGF) instead of probability generating functions (PGF).
 CF/MGF enjoys nice properties like linearity and convolution theorem. Furthermore, CF of constant assignments and linear arithmetics can be easily expressed:
@@ -1012,7 +1011,7 @@ CF/MGF enjoys nice properties like linearity and convolution theorem. Furthermor
 	\S{x:= x+y} & = g\mapsto g[t/(s+t)] & \E(e^{sX + (t+s)Y})    & = \E(e^{s(X+Y) + tY}) \\
 	\S{x:= ax}  & = g\mapsto g[s/as]    & \E(e^{(sa)X + tY})     & = \E(e^{s(aX) + tY})  \\
 \end{align*}
-However, it remain unclear how can we efficiently compute the prefix-filtered CF/MGF:
+However, it remains unclear how to compute the prefix-filtered CF/MGF efficiently:
 \[
 	\varphi_{x<c}(t) = \E(t^{i[X<c]X}) = \int_{-\infty}^c f(x) e^{itx} \mathrm{d}x
 \]
@@ -1021,7 +1020,7 @@ However, it remain unclear how can we efficiently compute the prefix-filtered CF
 
 Our approach relies on fixed point induction to handle unbounded loops. Fixed point induction requires the program to be UAST.
 Therefore, we can only correctly compute the PGF transformer of UAST programs.\par
-In reactive programs (or streaming programs) process infinite data stream perpetually. These programs never terminate.
+Reactive programs (or streaming programs) process infinite data streams perpetually. These programs never terminate.
 For example, consider the following two programs. Our tool cannot determine whether they are equivalent or not.
 
 \noindent \begin{minipage}[t]{0.45\textwidth}
@@ -1052,7 +1051,7 @@ setCallback((input) => {
 	\end{tcolorbox}
 \end{minipage}
 
-In the future, one might explore how PGF transformers semantics can be used to verify equivalence of reactive programs.
+In the future, one might research how PGF transformer semantics can be used to verify the equivalence of reactive programs.
 
 \appendix
 \setlength{\parskip}{0pt}
